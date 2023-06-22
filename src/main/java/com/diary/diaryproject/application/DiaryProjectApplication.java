@@ -1,4 +1,4 @@
-package com.diary.diaryproject;
+package com.diary.diaryproject.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
