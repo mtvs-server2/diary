@@ -1,6 +1,6 @@
 package com.diary.diaryproject.domain.repository;
 
-import com.diary.diaryproject.domain.aggregate.entity.User;
+import com.diary.diaryproject.domain.aggregate.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
 
     @Autowired
-    private User user;
+    private UserEntity user;
 
 }
