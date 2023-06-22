@@ -16,14 +16,14 @@ spring:
 
 # jpa config
   jpa:
-    generate-ddl : false
-    show-sql: true
+    generate-ddl : true
+#    show-sql: true
     database: mysql
     properties:
       hibernate:
         '[format_sql]': true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
 
     web:
       resources:
