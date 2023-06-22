@@ -6,7 +6,7 @@ server:
       timeout: 360000s
 spring:
   profiles:
-    active: sj, local
+    active: dev, local
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
   config:
