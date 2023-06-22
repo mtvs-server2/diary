@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:mysql://43.200.231.220:54497
+    username: prod
+    password: prod1234
+    hikari:
+      auto-commit: false
