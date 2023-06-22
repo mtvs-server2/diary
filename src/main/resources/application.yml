@@ -7,13 +7,12 @@ server:
 spring:
   profiles:
     active: sj, local
-  main:
-    allow-bean-definition-overriding:true
-  # 운영환경 or 로컬 환경 중에 선택하세요.
+# 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
   config:
     activate:
       on-profile: develop
+    use-legacy-processing: true
 
 # jpa config
   jpa:

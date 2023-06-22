@@ -1,6 +1,6 @@
 spring:
   datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.200.231.220:54497
     username: prod
     password: prod1234
