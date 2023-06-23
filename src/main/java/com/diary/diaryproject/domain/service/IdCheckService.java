@@ -8,8 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class IdCheckService {
 
-    public void IdCheck() {
+    public void CheckIdLength() {
 
     }
 
+    public void CheckDuplicatedId() {
+
+    }
+
+    public void CheckCorrectId() {
+
+    }
 }
