@@ -6,24 +6,24 @@ server:
       timeout: 360000s
 spring:
   profiles:
-    active: dev, local
+    active: dev
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
-  config:
-    activate:
-      on-profile: develop
-    use-legacy-processing: true
+#  config:
+#    activate:
+#    use-legacy-processing: true
 
 # jpa config
   jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
     generate-ddl : true
-#    show-sql: true
+    show-sql: true
     database: mysql
-    properties:
-      hibernate:
-        '[format_sql]': true
+#    properties:
+#      hibernate:
+#        '[format_sql]': true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
 
     web:
       resources:
