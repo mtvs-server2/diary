@@ -1,9 +1,12 @@
 package com.diary.diaryproject.domain.service;
 
+import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Service
@@ -12,13 +15,19 @@ public class PhraseService {
 
     private final PhrasesRepository phrasesRepository;
 
-    public Map<String, Object> getPhrase() {
+    @Transactional
+    public void registPhraseToUser(String userId, Map<String, Object> map) throws Exception {
 
-        return null;
-    }
+        String phrase = (String) map.get("phrase");
+        int emotion = (int) map.get("emotion");
 
-    public Object test() {
+        Phrases phrases = Phrases.builder()
+                .userId(userId)
+                .phrase(phrase)
+                .emotion(emotion)
+                .createdDate(LocalDate.now())
+                .build();
 
-        return phrasesRepository.findById(1);
+        phrasesRepository.save(phrases);
     }
 }

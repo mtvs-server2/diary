@@ -1,27 +1,39 @@
 package com.diary.diaryproject.domain.controller;
 
 import com.diary.diaryproject.domain.service.PhraseService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.nio.charset.Charset;
+import java.util.Map;
 
 @RequiredArgsConstructor
+@RestController
 @Controller
 @RequestMapping("/phrases")
 public class PhraseController {
 
     private final PhraseService phraseService;
 
-    @GetMapping("/ping")
-    public String ping() {
+    @PostMapping("/{userId}")
+    public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody Map<String, Object> phrase) {
 
-        return "ping";
-    }
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-    @GetMapping("/test")
-    public Object test() {
-
-        return phraseService.test();
+        try {
+            phraseService.registPhraseToUser(userId, phrase);
+            return new ResponseEntity(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            return new ResponseEntity(message, headers, HttpStatus.BAD_REQUEST);
+        }
     }
 }
