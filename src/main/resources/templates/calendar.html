@@ -2,24 +2,189 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        html, body {
+            margin:13px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0px auto;
+            background-color: #F0F6F8;
+            border-radius: 20px 20px 20px 20px / 20px 20px 20px 20px;
+        }
+        .event-icon {
+            width:70px;
+        }
+
+        .fc-daygrid-day {
+            width: 100px; /* Set the desired width for the cells */
+            height: 100px; /* Set the desired height for the cells */
+        }
+    </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var events = [];
+
+            function addEmojiToCalendar(emojiDataArray) {
+                emojiDataArray.forEach(function (eventData) {
+                    events.push(eventData);
+                });
+                renderCalendar();
+            }
+
+            function fetchEmojiAndAddToEvents() {
+
+                // fetch('/calendar')
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         console.log(data);
+                //         const emojiMap = data.emojiMap;
+                //         console.log("emojiMap"+emojiMap);
+                //         const events = [];
+                //         for (const [type, start] of Object.entries(emojiMap)) {
+                //             events.push({
+                //                 type: type,
+                //                 start: start
+                //             });
+                //         }
+                //     });
+
+
+                //addEmojiToCalendar(events);
+
+
+                emojiDataArray = [
+                    {
+                        type: 'happy',
+                        start: new Date(),  //Date 형태로 입력받기
+                        //start: "2023-06-10",
+                    },
+                    {
+                        type: 'cry',
+                        start: new Date('2023-6-10')
+                    },
+                    {
+                        type: 'smile',
+                        start: new Date('2023-6-11')
+                    },
+                    {
+                        type: 'smile',
+                        start: new Date('2023-6-12')
+                    }
+                ]
+
+                addEmojiToCalendar(emojiDataArray);
+            }
+
+            function emojiClickHandler(date) {
+                alert("이모지 클릭!!"+date);
+                //서버 호출
+            }
+
+            function renderCalendar() {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    selectable: true,
+
+                    eventContent: function (arg) {
+                        var event = arg.event;
+                        if (event.extendedProps.type === 'happy') {
+                            // Custom content for meetings
+                            return {
+                                html: `<div><img src="emoji/happy.png" class="event-icon" /></div>`
+                            };
+                        }
+                        if (event.extendedProps.type === 'angry') {
+                            return {
+                                html: `<div><img src="emoji/angry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'cry') {
+                            return {
+                                html: `<div><img src="emoji/cry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'smile') {
+                            return {
+                                html: `<div><img src="emoji/smile.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'cynical') {
+                            return {
+                                html: `<div><img src="emoji/cynical.png" class="event-icon" /></div>`
+                            }
+                        }
+                    },
+
+                    events: events,
+                    // events: {
+                    //     url: '/calendar',
+                    //     method: 'GET',
+                    //     success: function(data) {
+                    //         alert("요청 성공");
+                    //         calendar.addEventSource(data);
+                    //     }
+                    // },
+
+                    eventDidMount: function(arg) {
+                        const userEmoji = arg.el.querySelectorAll('.event-icon');
+                        userEmoji.forEach((element) => {
+                            element.addEventListener('click', function() {
+                                emojiClickHandler(arg.event.start);
+                            });
+                        });
+                    },
+
+                    eventColor: '#F0F6F8',
+
+                    customButtons: {
+                        logoutButton: {
+                            text: 'LOGOUT',
+                            hint: '잘가요!',
+                            click: function () {
+                                var req = new XMLHttpRequest();
+                                req.open('GET', '/logout', true);
+                                alert(req);
+                            },
+                        }
+                    },
+
+                    headerToolbar: {
+                        left: 'prev',
+                        center: 'title',
+                        right: 'next'
+                    },
+
+                    footerToolbar: {
+                        right: 'logoutButton'
+                    },
+
+                    // dateClick: function (info) { //날짜 박스 클릭 시 글쓰기 팝업
+                    //     alert('clicked ' + info.dateStr);
+                    //     //작성 팝업 controller
+                    // }
+
+                    dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
+                        alert('clicked ' + event.date);
+                        //작성 팝업 controller
+                    }
+
+                });
+
+                calendar.render();
+            }
+            fetchEmojiAndAddToEvents();
+            //renderCalendar();
+
+        })
+    </script>
 </head>
 <body>
-  <div id='calendar'>
-
-  </div>
-  <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-      });
-
-      calendar.render();
-    });
-
-  </script>
+    <div id='calendar'></div>
 </body>
 </html>
