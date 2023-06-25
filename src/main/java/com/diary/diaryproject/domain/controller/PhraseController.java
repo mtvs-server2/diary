@@ -1,5 +1,6 @@
 package com.diary.diaryproject.domain.controller;
 
+import com.diary.diaryproject.domain.dto.PhraseDto;
 import com.diary.diaryproject.domain.service.PhraseService;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,6 +27,23 @@ public class PhraseController {
 
     @Value("${open-ai.api-key}")
     private String openaiKey;
+
+    @GetMapping("/{userId}")
+    @ResponseBody
+    private ResponseEntity findPhrase(@PathVariable String userId, @RequestParam LocalDate date) {
+
+        HttpHeaders headers= new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        try {
+            PhraseDto phraseDto = phraseService.findPhrase(userId, date);
+            return new ResponseEntity(phraseDto, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            return new ResponseEntity(message, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/{userId}")
     @ResponseBody

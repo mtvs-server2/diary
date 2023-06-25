@@ -1,6 +1,7 @@
 package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.domain.aggregate.entity.Phrases;
+import com.diary.diaryproject.domain.dto.PhraseDto;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,13 @@ public class PhraseService {
                 .build();
 
         phrasesRepository.save(phrases);
+    }
+
+    public PhraseDto findPhrase(String userId, LocalDate date) {
+        PhraseDto phraseDto = new PhraseDto();
+        Phrases phrases = phrasesRepository.findByUserIdAndDate(userId, date);
+        phraseDto = phraseDto.toDto(phrases);
+
+        return phraseDto;
     }
 }
