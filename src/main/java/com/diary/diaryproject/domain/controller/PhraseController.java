@@ -14,7 +14,6 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@RestController
 @Controller
 @RequestMapping("/phrases")
 public class PhraseController {
@@ -22,7 +21,8 @@ public class PhraseController {
     private final PhraseService phraseService;
 
     @PostMapping("/{userId}")
-    public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody Map<String, Object> phrase) {
+    @ResponseBody
+    public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody String phrase) {
 
         HttpHeaders headers= new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
@@ -35,5 +35,11 @@ public class PhraseController {
             String message = e.getMessage();
             return new ResponseEntity(message, headers, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/test")
+    public String getTest() {
+
+        return "test/test";
     }
 }

@@ -16,15 +16,15 @@ public class PhraseService {
     private final PhrasesRepository phrasesRepository;
 
     @Transactional
-    public void registPhraseToUser(String userId, Map<String, Object> map) throws Exception {
+    public void registPhraseToUser(String userId, String phrase) throws Exception {
 
-        String phrase = (String) map.get("phrase");
-        int emotion = (int) map.get("emotion");
+//        String phrase = (String) map.get("phrase");
+//        int emotion = (int) map.get("emotion");
 
         Phrases phrases = Phrases.builder()
                 .userId(userId)
                 .phrase(phrase)
-                .emotion(emotion)
+//                .emotion(emotion)
                 .createdDate(LocalDate.now())
                 .build();
 

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1 align="center">테스트</h1>
+    <input type="button" onclick="getPhrase()" value="버튼">
+    <div id="result"></div>
+    <script>
+        async function getPhrase() {
+            const api_key = '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';
+            const name = '박성준';
+
+            const messages = [
+                {"role": "system", "content": `당신은 느끼하며 반말을 합니다. ${name}을 반드시 이용해서 주접을 떠세요`},
+                {"role": "system", "content": "한 문장으로 대답하세요"}
+            ]
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${api_key}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+
+            const config1 = {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            }
+
+            const data = {
+                model: 'gpt-3.5-turbo',
+                temperature: 0.5,
+                n: 1,
+                messages: messages,
+            }
+
+            await axios
+                .post('https://api.openai.com/v1/chat/completions', data, config)
+                    .then((response) => {
+                        let resultDiv = document.getElementById('result')
+                        console.log(response.data.choices[0].message.content);
+                        const phrase = response.data.choices[0].message.content
+                        resultDiv.innerHTML = ''
+                        response.data.choices.forEach((choice, index) => {
+                            resultDiv.innerHTML += `<div>${choice.message.content
+                                .split('\n')
+                                .join('<br/>')}</div>`
+                        })
+                        axios
+                        .post('/phrases/myrhymetree', phrase, config1)
+                        .then((res) => {
+                            console.log(res);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                    })
+                    .catch((error) => {
+                        console.error(error)
+                    })
+
+
+        }
+    </script>
+</body>
+</html>
