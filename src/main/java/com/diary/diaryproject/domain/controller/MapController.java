@@ -42,9 +42,6 @@ public class MapController {
         model.addAttribute("address", AddressStatic.addressStatic.getAddress());
         model.addAttribute("roadAddress", AddressStatic.addressStatic.getRoadAddress());
 
-        System.out.println("AddressStatic.addressStatic = " + AddressStatic.addressStatic);
-
-
         return "saveAddr";
     }
 }
