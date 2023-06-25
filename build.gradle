@@ -25,11 +25,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'mysql:mysql-connector-java:8.0.25'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    // https://mvnrepository.com/artifact/org.jasypt/jasypt
-    implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot:3.0.4'
 
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    systemProperty "jasypt.encryptor.password", System.getProperties().get("jasypt.encryptor.password")
 }
