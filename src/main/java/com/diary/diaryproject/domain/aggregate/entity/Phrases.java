@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Entity
-@Table(name = "Phrases")
 public class Phrases {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +20,6 @@ public class Phrases {
 
     @Column
     private String userId;
-
-    @Column
-    private Integer emotion;
 
     @Column
     private String phrase;
