@@ -1,17 +1,18 @@
 package com.diary.diaryproject.domain.controller;
 
 import com.diary.diaryproject.domain.service.PhraseService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
+import org.jasypt.encryption.StringEncryptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -19,6 +20,11 @@ import java.util.Map;
 public class PhraseController {
 
     private final PhraseService phraseService;
+
+    private final StringEncryptor stringEncryptor;
+
+    @Value("${open-ai.api-key}")
+    private String openaiKey;
 
     @PostMapping("/{userId}")
     @ResponseBody
@@ -38,7 +44,9 @@ public class PhraseController {
     }
 
     @GetMapping("/test")
-    public String getTest() {
+    public String getTest(Model model) {
+        String key = stringEncryptor.decrypt(openaiKey);
+        model.addAttribute("openaiKey", key);
 
         return "test/test";
     }

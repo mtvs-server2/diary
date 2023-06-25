@@ -41,4 +41,9 @@ spring:
       # 파일 하나의 최대 크기
       max-file-size: 20MB
 
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
+open-ai:
+  api-key : G6Tym5NFuGdM0ZriHLXT1y6m8GoIZjD+Zmkof+fsRR++JFJyTuWz4otot8IW6/WUb9dailibXMdGYoHm+44JOQ==

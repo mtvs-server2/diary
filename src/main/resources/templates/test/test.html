@@ -11,7 +11,7 @@
     <div id="result"></div>
     <script>
         async function getPhrase() {
-            const api_key = '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';
+            const api_key = '[[${ openaiKey }]]'
             const name = '박성준';
 
             const messages = [
@@ -63,8 +63,6 @@
                     .catch((error) => {
                         console.error(error)
                     })
-
-
         }
     </script>
 </body>
