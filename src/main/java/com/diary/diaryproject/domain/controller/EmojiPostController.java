@@ -1,18 +1,14 @@
 package com.diary.diaryproject.domain.controller;
 
-import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardInputDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -27,9 +23,9 @@ public class EmojiPostController {
     }
     private static class Event {
         private EmojiEnum type;
-        private Date start;
+        private LocalDate start;
 
-        public Event(EmojiEnum type, Date start) {
+        public Event(EmojiEnum type, LocalDate start) {
             this.type = type;
             this.start = start;
         }
@@ -42,22 +38,31 @@ public class EmojiPostController {
             this.type = type;
         }
 
-        public Date getStart() {
+        public LocalDate getStart() {
             return start;
         }
 
-        public void setStart(Date start) {
+        public void setStart(LocalDate start) {
             this.start = start;
+        }
+
+        @Override
+        public String toString() {
+            return "Event{" +
+                    "type=" + type +
+                    ", start=" + start +
+                    '}';
         }
     }
 
-    //@RequestMapping(value = "/emojiMapping", method = RequestMethod.GET)
     @GetMapping("/calendar")
-    public ResponseEntity<List<Event>> getMappingData(Model model){
+    public String getEvent(Model model){
 //        Map<EmojiEnum, Date> emojiMap = new HashMap<>();
           List<Event> events = new ArrayList<>();
 
+
 //        List<Board> boards = boardRepository.findAll();
+
 
 //        for (Board board : boards) {
 //            Event event = new Event(board.getEmoji(), board.getDate());
@@ -70,14 +75,29 @@ public class EmojiPostController {
 //
 //        model.addAttribute("emojiMap", emojiMap);
 
-        events.add(new Event(EmojiEnum.HAPPY, new Date(2023-06-01)));
-        events.add(new Event(EmojiEnum.HAPPY, new Date(2023-06-02)));
-        events.add(new Event(EmojiEnum.HAPPY, new Date(2023-06-03)));
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2023, Calendar.JUNE, 1, 9, 0, 0);
+//        Date start = calendar.getTime();
+
+//        String test = "실험입니다";
+//
+        events.add(new Event(EmojiEnum.HAPPY, LocalDate.of(2023,6,1))); //1900
+        events.add(new Event(EmojiEnum.SMILE, LocalDate.of(2023,6,2)));
+        events.add(new Event(EmojiEnum.ANGRY, LocalDate.now()));
 
 
-        return ResponseEntity.ok(events);
+        model.addAttribute("events", events);
+//
+////        model.addAttribute("events",events);
+//
+//        model.addAttribute("test",test);
+//
+//
+////        return ResponseEntity.ok(events);
+//
+        return "calendar";
 
-//        return "calendar";
+//        return events;
     }
 
 }

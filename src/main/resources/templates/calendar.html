@@ -25,62 +25,63 @@
         }
     </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
-<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-    <script>
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            var events = [];
+            var events = /*[[${events}]]*/ [];
+            console.log(events);
 
-            function addEmojiToCalendar(emojiDataArray) {
-                emojiDataArray.forEach(function (eventData) {
-                    events.push(eventData);
-                });
-                renderCalendar();
-            }
+            // function addEmojiToCalendar(emojiDataArray) {
+            //     emojiDataArray.forEach(function (eventData) {
+            //         events.push(eventData);
+            //     });
+            //     renderCalendar();
+            // }
 
-            function fetchEmojiAndAddToEvents() {
-
-                // fetch('/calendar')
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         console.log(data);
-                //         const emojiMap = data.emojiMap;
-                //         console.log("emojiMap"+emojiMap);
-                //         const events = [];
-                //         for (const [type, start] of Object.entries(emojiMap)) {
-                //             events.push({
-                //                 type: type,
-                //                 start: start
-                //             });
-                //         }
-                //     });
-
-
-                //addEmojiToCalendar(events);
-
-
-                emojiDataArray = [
-                    {
-                        type: 'happy',
-                        start: new Date(),  //Date 형태로 입력받기
-                        //start: "2023-06-10",
-                    },
-                    {
-                        type: 'cry',
-                        start: new Date('2023-6-10')
-                    },
-                    {
-                        type: 'smile',
-                        start: new Date('2023-6-11')
-                    },
-                    {
-                        type: 'smile',
-                        start: new Date('2023-6-12')
-                    }
-                ]
-
-                addEmojiToCalendar(emojiDataArray);
-            }
+            // function fetchEmojiAndAddToEvents() {
+            //
+            //     // fetch('/calendar')
+            //     //     .then(response => response.json())
+            //     //     .then(data => {
+            //     //         console.log(data);
+            //     //         const emojiMap = data.emojiMap;
+            //     //         console.log("emojiMap"+emojiMap);
+            //     //         const events = [];
+            //     //         for (const [type, start] of Object.entries(emojiMap)) {
+            //     //             events.push({
+            //     //                 type: type,
+            //     //                 start: start
+            //     //             });
+            //     //         }
+            //     //     });
+            //
+            //
+            //     //addEmojiToCalendar(events);
+            //
+            //
+            //     emojiDataArray = [
+            //         {
+            //             type: 'happy',
+            //             start: new Date(),  //Date 형태로 입력받기
+            //             //start: "2023-06-10",
+            //         },
+            //         {
+            //             type: 'cry',
+            //             start: new Date('2023-6-10')
+            //         },
+            //         {
+            //             type: 'smile',
+            //             start: new Date('2023-6-11')
+            //         },
+            //         {
+            //             type: 'smile',
+            //             start: new Date('2023-6-12')
+            //         }
+            //     ]
+            //
+            //     addEmojiToCalendar(emojiDataArray);
+            // }
 
             function emojiClickHandler(date) {
                 alert("이모지 클릭!!"+date);
@@ -93,28 +94,28 @@
 
                     eventContent: function (arg) {
                         var event = arg.event;
-                        if (event.extendedProps.type === 'happy') {
+                        if (event.extendedProps.type === 'HAPPY') {
                             // Custom content for meetings
                             return {
                                 html: `<div><img src="emoji/happy.png" class="event-icon" /></div>`
                             };
                         }
-                        if (event.extendedProps.type === 'angry') {
+                        if (event.extendedProps.type === 'ANGRY') {
                             return {
                                 html: `<div><img src="emoji/angry.png" class="event-icon" /></div>`
                             }
                         }
-                        if (event.extendedProps.type === 'cry') {
+                        if (event.extendedProps.type === 'CRY') {
                             return {
                                 html: `<div><img src="emoji/cry.png" class="event-icon" /></div>`
                             }
                         }
-                        if (event.extendedProps.type === 'smile') {
+                        if (event.extendedProps.type === 'SMILE') {
                             return {
                                 html: `<div><img src="emoji/smile.png" class="event-icon" /></div>`
                             }
                         }
-                        if (event.extendedProps.type === 'cynical') {
+                        if (event.extendedProps.type === 'CYNICAL') {
                             return {
                                 html: `<div><img src="emoji/cynical.png" class="event-icon" /></div>`
                             }
@@ -178,13 +179,13 @@
 
                 calendar.render();
             }
-            fetchEmojiAndAddToEvents();
-            //renderCalendar();
+            //fetchEmojiAndAddToEvents();
+            renderCalendar();
 
         })
     </script>
 </head>
 <body>
-    <div id='calendar'></div>
+<div id='calendar'></div>
 </body>
 </html>
