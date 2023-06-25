@@ -1,10 +1,15 @@
 package com.diary.diaryproject.domain.controller;
 
 import com.diary.diaryproject.domain.dto.AddressDTO;
+import com.diary.diaryproject.domain.dto.AddressStatic;
 import com.diary.diaryproject.domain.service.MapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/jujeop")
@@ -20,19 +25,26 @@ public class MapController {
     @GetMapping("map")
     public void printMap(){}
 
-    @PostMapping("/saveAddr")
-    @ResponseBody
-    public Object saveAddr(@RequestBody AddressDTO addr) {
-
+    @PostMapping("map")
+    public String map(@RequestBody AddressDTO addr, Model model) {
         mapService.saveToRepository(addr);
-        return "sucess";
+
+        String address = addr.getAddress();
+        String roadAddress = addr.getRoadAddress();
+
+        AddressStatic.addressStatic = new AddressStatic(address, roadAddress);
+
+        return "saveAddr";
     }
 
-//    @GetMapping("result")
-//    public void markMap(AddressDTO addr){
-//        mapService.loadToRepository(addr);
-//
-//    }
+    @GetMapping("saveAddr")
+    public String saveAddr(Model model) {
+        model.addAttribute("address", AddressStatic.addressStatic.getAddress());
+        model.addAttribute("roadAddress", AddressStatic.addressStatic.getRoadAddress());
+
+        System.out.println("AddressStatic.addressStatic = " + AddressStatic.addressStatic);
 
 
+        return "saveAddr";
+    }
 }
