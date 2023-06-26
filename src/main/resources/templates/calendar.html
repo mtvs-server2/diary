@@ -32,56 +32,16 @@
             var events = /*[[${events}]]*/ [];
             console.log(events);
 
-            // function addEmojiToCalendar(emojiDataArray) {
-            //     emojiDataArray.forEach(function (eventData) {
-            //         events.push(eventData);
-            //     });
-            //     renderCalendar();
-            // }
 
-            // function fetchEmojiAndAddToEvents() {
-            //
-            //     // fetch('/calendar')
-            //     //     .then(response => response.json())
-            //     //     .then(data => {
-            //     //         console.log(data);
-            //     //         const emojiMap = data.emojiMap;
-            //     //         console.log("emojiMap"+emojiMap);
-            //     //         const events = [];
-            //     //         for (const [type, start] of Object.entries(emojiMap)) {
-            //     //             events.push({
-            //     //                 type: type,
-            //     //                 start: start
-            //     //             });
-            //     //         }
-            //     //     });
-            //
-            //
-            //     //addEmojiToCalendar(events);
-            //
-            //
-            //     emojiDataArray = [
-            //         {
-            //             type: 'happy',
-            //             start: new Date(),  //Date 형태로 입력받기
-            //             //start: "2023-06-10",
-            //         },
-            //         {
-            //             type: 'cry',
-            //             start: new Date('2023-6-10')
-            //         },
-            //         {
-            //             type: 'smile',
-            //             start: new Date('2023-6-11')
-            //         },
-            //         {
-            //             type: 'smile',
-            //             start: new Date('2023-6-12')
-            //         }
-            //     ]
-            //
-            //     addEmojiToCalendar(emojiDataArray);
-            // }
+            var emoji = data.emoji;
+            if (emoji) {
+                var imagePath = getEmojiImagePath(emoji);
+                $('#emojiImage').attr('src', imagePath);
+            } else {
+                var imagePath = getEmojiImagePath('HAPPY');
+                $('#emojiImage').attr('src', imagePath);
+            }
+
 
             function emojiClickHandler(date) {
                 alert("이모지 클릭!!"+date);
@@ -95,42 +55,34 @@
                     eventContent: function (arg) {
                         var event = arg.event;
                         if (event.extendedProps.type === 'HAPPY') {
-                            // Custom content for meetings
                             return {
-                                html: `<div><img src="emoji/happy.png" class="event-icon" /></div>`
+                                html: `<div><img src="images/happy.png" class="event-icon" /></div>`
+
                             };
                         }
                         if (event.extendedProps.type === 'ANGRY') {
                             return {
-                                html: `<div><img src="emoji/angry.png" class="event-icon" /></div>`
+                                html: `<div><img src="angry.png" class="event-icon" /></div>`
                             }
                         }
                         if (event.extendedProps.type === 'CRY') {
                             return {
-                                html: `<div><img src="emoji/cry.png" class="event-icon" /></div>`
+                                html: `<div><img src="images/cry.png" class="event-icon" /></div>`
                             }
                         }
                         if (event.extendedProps.type === 'SMILE') {
                             return {
-                                html: `<div><img src="emoji/smile.png" class="event-icon" /></div>`
+                                html: `<div><img src="images/smile.png" class="event-icon" /></div>`
                             }
                         }
                         if (event.extendedProps.type === 'CYNICAL') {
                             return {
-                                html: `<div><img src="emoji/cynical.png" class="event-icon" /></div>`
+                                html: `<div><img src="cynical.png" class="event-icon" /></div>`
                             }
                         }
                     },
 
                     events: events,
-                    // events: {
-                    //     url: '/calendar',
-                    //     method: 'GET',
-                    //     success: function(data) {
-                    //         alert("요청 성공");
-                    //         calendar.addEventSource(data);
-                    //     }
-                    // },
 
                     eventDidMount: function(arg) {
                         const userEmoji = arg.el.querySelectorAll('.event-icon');
@@ -140,6 +92,8 @@
                             });
                         });
                     },
+
+                    //eventColor: '#0e0f37',
 
                     eventColor: '#F0F6F8',
 
@@ -164,11 +118,6 @@
                     footerToolbar: {
                         right: 'logoutButton'
                     },
-
-                    // dateClick: function (info) { //날짜 박스 클릭 시 글쓰기 팝업
-                    //     alert('clicked ' + info.dateStr);
-                    //     //작성 팝업 controller
-                    // }
 
                     dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
                         alert('clicked ' + event.date);

@@ -25,6 +25,32 @@ public class EmojiPostController {
         private EmojiEnum type;
         private LocalDate start;
 
+        private String title;
+
+//        public LocalDate getStart() {
+//            return start;
+//        }
+//
+//        public void setStart(LocalDate start) {
+//            this.start = start;
+//        }
+//
+//        public String getTitle() {
+//            return title;
+//        }
+//
+//        public void setTitle(String title) {
+//            this.title = title;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "Event{" +
+//                    "start=" + start +
+//                    ", title='" + title + '\'' +
+//                    '}';
+//        }
+
         public Event(EmojiEnum type, LocalDate start) {
             this.type = type;
             this.start = start;
@@ -57,7 +83,6 @@ public class EmojiPostController {
 
     @GetMapping("/calendar")
     public String getEvent(Model model){
-//        Map<EmojiEnum, Date> emojiMap = new HashMap<>();
           List<Event> events = new ArrayList<>();
 
 
@@ -68,36 +93,14 @@ public class EmojiPostController {
 //            Event event = new Event(board.getEmoji(), board.getDate());
 //            events.add(event);
 //        }
-
-//        emojiMap.put(EmojiEnum.HAPPY, new Date(2023-06-01));
-//        emojiMap.put(EmojiEnum.HAPPY, new Date(2023-06-02));
-//        emojiMap.put(EmojiEnum.HAPPY, new Date(2023-06-03));
-//
-//        model.addAttribute("emojiMap", emojiMap);
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2023, Calendar.JUNE, 1, 9, 0, 0);
-//        Date start = calendar.getTime();
-
-//        String test = "실험입니다";
-//
-        events.add(new Event(EmojiEnum.HAPPY, LocalDate.of(2023,6,1))); //1900
+        events.add(new Event(EmojiEnum.HAPPY, LocalDate.of(2023,6,1)));
         events.add(new Event(EmojiEnum.SMILE, LocalDate.of(2023,6,2)));
         events.add(new Event(EmojiEnum.ANGRY, LocalDate.now()));
 
 
         model.addAttribute("events", events);
-//
-////        model.addAttribute("events",events);
-//
-//        model.addAttribute("test",test);
-//
-//
-////        return ResponseEntity.ok(events);
-//
-        return "calendar";
 
-//        return events;
+        return "calendar";
     }
 
 }
