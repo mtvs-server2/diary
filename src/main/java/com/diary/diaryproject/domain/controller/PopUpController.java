@@ -49,15 +49,14 @@ public class PopUpController {
         }
     }
 
-    // TODO : 추후 boardNO 호출로 변경
     // 다이어리 내용 수정
     @PostMapping("/update-board")
     public String updateData(@RequestParam("title") String title, @RequestParam("body") String body,
-                           @RequestParam("emoji") EmojiEnum emojiEnum) {
+                           @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("boardNo") Long boardNo) {
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
         boardDTO.setEmojiEnum(emojiEnum);
-        //boardDTO.setBoardNo(boardNo);
+        boardDTO.setBoradNo(boardNo);
 
         System.out.println("update controller 호출");
 
@@ -71,22 +70,20 @@ public class PopUpController {
         return "redirect:/";
     }
 
-    // TODO : 추후 boardNO 호출로 변경
     // 저장된 다이어리 가져오기
     @GetMapping("/get-board")
     @ResponseBody
-    public ResponseEntity<BoardDTO> getBoard(Model model) {
+    public ResponseEntity<BoardDTO> getBoard(@RequestParam("boardNo") Long boardNo) {
         System.out.println("get-board 호출");
 
         try {
-            boardDTO = popUpService.findBioardById(1L);
+            boardDTO = popUpService.findBioardById(boardNo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
         System.out.println("boardDTO = " + boardDTO.getEmojiEnum());
 
-        //model.addAttribute()
 
         return ResponseEntity.ok(boardDTO);
     }
