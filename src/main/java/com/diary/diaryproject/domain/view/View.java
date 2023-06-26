@@ -6,6 +6,4 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class View {
 
-//    ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
-
 }

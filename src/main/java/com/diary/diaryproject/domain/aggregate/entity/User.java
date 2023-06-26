@@ -34,4 +34,16 @@ public class User {
     public String getNickName() {
         return nickName;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 }

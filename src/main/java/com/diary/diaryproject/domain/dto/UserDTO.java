@@ -1,6 +1,7 @@
-package com.diary.diaryproject.application.dto;
+package com.diary.diaryproject.domain.dto;
 
 public class UserDTO {
+
     private String id;
     private String pwd;
     private String nickName;
