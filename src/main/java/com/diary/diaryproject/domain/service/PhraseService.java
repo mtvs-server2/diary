@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Service
@@ -28,9 +29,29 @@ public class PhraseService {
         phrasesRepository.save(phrases);
     }
 
-    public PhraseDto findPhrase(String userId, LocalDate date) {
+    @Transactional
+    public void modifyPhraseToUser(String userId, String date, String phrase) {
+
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
+
+        phrases.setPhrase(phrase);
+    }
+
+    @Transactional
+    public void removePhraseToUser(String userId, String date, String phrase) {
+
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
+
+        phrasesRepository.delete(phrases);
+    }
+
+    public PhraseDto findPhrase(String userId, String date) {
         PhraseDto phraseDto = new PhraseDto();
-        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, date);
+
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
         phraseDto = phraseDto.toDto(phrases);
 
         return phraseDto;

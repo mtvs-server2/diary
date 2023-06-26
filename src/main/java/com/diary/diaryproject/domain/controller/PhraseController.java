@@ -28,12 +28,16 @@ public class PhraseController {
     @Value("${open-ai.api-key}")
     private String openaiKey;
 
+    private HttpHeaders getHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        return headers;
+    }
     @GetMapping("/{userId}")
     @ResponseBody
-    private ResponseEntity findPhrase(@PathVariable String userId, @RequestParam LocalDate date) {
+    private ResponseEntity findPhrase(@PathVariable String userId, @RequestParam String date) {
 
-        HttpHeaders headers= new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        HttpHeaders headers = getHeader();
 
         try {
             PhraseDto phraseDto = phraseService.findPhrase(userId, date);
@@ -49,11 +53,45 @@ public class PhraseController {
     @ResponseBody
     public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody String phrase) {
 
-        HttpHeaders headers= new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        HttpHeaders headers = getHeader();
 
         try {
             phraseService.registPhraseToUser(userId, phrase);
+            return new ResponseEntity(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            return new ResponseEntity(message, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/{userId}")
+    @ResponseBody
+    public ResponseEntity modifyPhrase(@PathVariable String userId,
+                                       @RequestParam String date,
+                                       @RequestBody String phrase) {
+
+        HttpHeaders headers = getHeader();
+
+        try {
+            phraseService.modifyPhraseToUser(userId, date, phrase);
+            return new ResponseEntity(headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            return new ResponseEntity(message, headers, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity removePhrase(@PathVariable String userId,
+                                       @RequestParam String date,
+                                       @RequestBody String phrase) {
+
+        HttpHeaders headers = getHeader();
+
+        try {
+            phraseService.removePhraseToUser(userId, date, phrase);
             return new ResponseEntity(headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
