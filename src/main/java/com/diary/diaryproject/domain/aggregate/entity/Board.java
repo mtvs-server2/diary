@@ -2,7 +2,6 @@ package com.diary.diaryproject.domain.aggregate.entity;
 
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardDTO;
-import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -35,7 +34,14 @@ public class Board {
 
     }
 
-    @Builder
+    public Board(BoardDTO boardDTO) {
+        this.title = boardDTO.getTitle();
+        this.body = boardDTO.getBody();
+        this.emojiEnum = boardDTO.getEmojiEnum();
+        this.phrase = boardDTO.getPhrase();
+        this.date = boardDTO.getDate();
+    }
+
     public Board(Long boradNo, String title, String body, String phrase, LocalDate date, EmojiEnum emojiEnum) {
         this.boradNo = boradNo;
         this.title = title;
@@ -45,10 +51,11 @@ public class Board {
         this.emojiEnum = emojiEnum;
     }
 
-    public void update(BoardDTO boardDTO) {
-        this.title = boardDTO.getTitle();
-        this.body = boardDTO.getBody();
-        this.phrase = boardDTO.getPhrase();
-        this.emojiEnum = boardDTO.getEmojiEnum();
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

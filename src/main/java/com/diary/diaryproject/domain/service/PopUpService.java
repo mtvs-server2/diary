@@ -3,20 +3,20 @@ package com.diary.diaryproject.domain.service;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.dto.BoardDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PopUpService {
     private final CheckTitle checkTitle;
     private final CheckBody checkBody;
     private final BoardRepository boardRepository;
-    private BoardDTO boardDTO;
+    private final BoardDTO boardDTO;
 
+    @Autowired
     public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository, BoardDTO boardDTO) {
         this.checkTitle = checkTitle;
         this.checkBody = checkBody;
@@ -29,41 +29,40 @@ public class PopUpService {
         checkBody.checkBodyLength(boardDTO.getBody());
     }
 
+    // 다이어리 저장
+    @Transactional
     public void saveBoard(BoardDTO boardDTO) {
         boardDTO.setDate(LocalDate.now());
-        Board board = Board.builder()
-                .title(boardDTO.getTitle())
-                .body(boardDTO.getBody())
-                .date(boardDTO.getDate())
-                .emojiEnum(boardDTO.getEmojiEnum())
-                .phrase(boardDTO.getPhrase())
-                .build();
+        Board board = new Board(boardDTO);
 
         boardRepository.save(board);
     }
 
     // 다이어리 수정
+    @Transactional
     public void updateBoard(BoardDTO boardDTO) {
-        // TODO : 추후 boardNO 호출로 변경
-//        Optional<Board> optionalBoard = boardRepository.findById(boardDTO.getBoradNo());
-        Optional<Board> optionalBoard = boardRepository.findById(1L);
-        Board board = optionalBoard.get();
+        Board board = boardRepository.findById(boardDTO.getBoradNo()).get();
 
-        board.update(boardDTO);
+        if (board != null) {
+            board.setBody(boardDTO.getBody());
+            board.setTitle(boardDTO.getTitle());
+        }
 
         boardRepository.save(board);
     }
 
     // 다이어리 id로 조회
+    @Transactional
     public BoardDTO findBioardById(Long boardId) {
-        Optional<Board> findBoard = boardRepository.findById(boardId);
+        Board findBoard = boardRepository.findById(boardId).get();
 
-        boardDTO.setBody(findBoard.get().getBody());
-        boardDTO.setTitle(findBoard.get().getTitle());
-        boardDTO.setDate(findBoard.get().getDate());
-        boardDTO.setEmojiEnum(findBoard.get().getEmojiEnum());
+        if(findBoard != null) {
+            boardDTO.setBody(findBoard.getBody());
+            boardDTO.setTitle(findBoard.getTitle());
+            boardDTO.setDate(findBoard.getDate());
+            boardDTO.setEmojiEnum(findBoard.getEmojiEnum());
+        }
 
         return boardDTO;
     }
-
 }
