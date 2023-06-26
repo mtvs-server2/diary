@@ -28,7 +28,7 @@ spring:
 #      hibernate:
 #        '[format_sql]': true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
     web:
       resources:
@@ -45,7 +45,3 @@ spring:
       max-request-size: 100MB
       # 파일 하나의 최대 크기
       max-file-size: 20MB
-
-
-
-
