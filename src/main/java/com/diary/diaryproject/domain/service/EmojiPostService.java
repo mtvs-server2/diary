@@ -48,7 +48,7 @@ public class EmojiPostService {
         List<NoDTO> boardNos = new ArrayList<>();
 
         if(findBoard != null) {
-            Long boardNo = (long) findBoard.getBoardNo();
+            Long boardNo = findBoard.getBoradNo();
             LocalDate date = findBoard.getDate();
 
             boardNos.add(new NoDTO(boardNo, date));

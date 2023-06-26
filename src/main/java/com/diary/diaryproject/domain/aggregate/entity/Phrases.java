@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @Entity
+@Builder
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "phraseUniqueConstraint",
                           columnNames = {"userId", "createdDate"}

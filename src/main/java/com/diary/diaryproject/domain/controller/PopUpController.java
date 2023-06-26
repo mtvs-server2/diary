@@ -29,7 +29,7 @@ public class PopUpController {
                            @RequestParam("emoji") EmojiEnum emojiEnum) {
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
-        boardDTO.setEmojiEnum(emojiEnum);
+        boardDTO.setEmoji(emojiEnum);
 
         System.out.println("Title: " + title);
         System.out.println("Text: " + body);
@@ -55,7 +55,7 @@ public class PopUpController {
                            @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("boardNo") Long boardNo) {
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
-        boardDTO.setEmojiEnum(emojiEnum);
+        boardDTO.setEmoji(emojiEnum);
         boardDTO.setBoradNo(boardNo);
 
         System.out.println("update controller 호출");
@@ -82,7 +82,7 @@ public class PopUpController {
             System.out.println(e.getMessage());
         }
 
-        System.out.println("boardDTO = " + boardDTO.getEmojiEnum());
+        System.out.println("boardDTO = " + boardDTO.getEmoji());
 
 
         return ResponseEntity.ok(boardDTO);

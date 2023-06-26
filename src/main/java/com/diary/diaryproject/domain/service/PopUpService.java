@@ -60,7 +60,7 @@ public class PopUpService {
             boardDTO.setBody(findBoard.getBody());
             boardDTO.setTitle(findBoard.getTitle());
             boardDTO.setDate(findBoard.getDate());
-            boardDTO.setEmojiEnum(findBoard.getEmojiEnum());
+            boardDTO.setEmoji(findBoard.getEmoji());
         }
 
         return boardDTO;

@@ -60,4 +60,28 @@ public class Board {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public Long getBoradNo() {
+        return boradNo;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public EmojiEnum getEmoji() {
+        return emoji;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getPhrase() {
+        return phrase;
+    }
 }
