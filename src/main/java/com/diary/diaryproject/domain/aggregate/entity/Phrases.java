@@ -12,6 +12,11 @@ import java.time.LocalDate;
 @ToString
 @Builder
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "phraseUniqueConstraint",
+                          columnNames = {"userId", "createdDate"}
+        )
+})
 public class Phrases {
 
     @GeneratedValue(strategy = GenerationType.AUTO)

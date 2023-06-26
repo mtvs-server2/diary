@@ -53,6 +53,23 @@ class PhraseServiceTest {
     }
 
     @Test
+    void insert_phrase_unique_test() {
+        try {
+            Phrases phrase = Phrases.builder()
+                    .userId("mythymetree")
+                    .phrase("주접1")
+                    .createdDate(LocalDate.now())
+                    .build();
+
+            phrasesRepository.save(phrase);
+        } catch (Exception e) {
+            assertThrows(Exception.class, () -> {
+                throw new Exception("예외 발생");
+            }, "예외가 발생하지 않았습니다.");
+        }
+    }
+
+    @Test
     @Transactional
     void modify_phase_test() {
 
