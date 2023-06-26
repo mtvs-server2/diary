@@ -11,14 +11,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-@Component
 public class BoardDTO {
     private Long boradNo;
     private String title;
     private String body;
     private LocalDate date;
-    private EmojiEnum emojiEnum;
+    private EmojiEnum emoji;
     private String phrase;
+
 }
-
-

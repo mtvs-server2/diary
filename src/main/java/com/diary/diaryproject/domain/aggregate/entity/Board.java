@@ -1,6 +1,7 @@
 package com.diary.diaryproject.domain.aggregate.entity;
 
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
+
 import com.diary.diaryproject.domain.dto.BoardDTO;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Table(name = "Board")
 public class Board {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long boradNo;
@@ -21,14 +23,14 @@ public class Board {
     @Column
     private String body;
 
-    @Column
-    private String phrase;
+    @Column(nullable = false)
+    private EmojiEnum emoji;
 
-    @Column
+    @Column(nullable = false)
     private LocalDate date;
 
     @Column
-    private EmojiEnum emojiEnum;
+    private String phrase;
 
     public Board() {
 
@@ -37,7 +39,7 @@ public class Board {
     public Board(BoardDTO boardDTO) {
         this.title = boardDTO.getTitle();
         this.body = boardDTO.getBody();
-        this.emojiEnum = boardDTO.getEmojiEnum();
+        this.emoji = boardDTO.getEmoji();
         this.phrase = boardDTO.getPhrase();
         this.date = boardDTO.getDate();
     }
@@ -48,7 +50,7 @@ public class Board {
         this.body = body;
         this.phrase = phrase;
         this.date = date;
-        this.emojiEnum = emojiEnum;
+        this.emoji = emojiEnum;
     }
 
     public void setTitle(String title) {

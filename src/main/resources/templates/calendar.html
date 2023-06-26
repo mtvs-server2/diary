@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        html, body {
+            margin:13px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0px auto;
+            background-color: #F0F6F8;
+            border-radius: 20px 20px 20px 20px / 20px 20px 20px 20px;
+        }
+        .event-icon {
+            width:70px;
+        }
+
+        .fc-daygrid-day {
+            width: 100px; /* Set the desired width for the cells */
+            height: 100px; /* Set the desired height for the cells */
+        }
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var events = /*[[${events}]]*/ [];   //날짜/ 이모지
+            var boardNos = /*[[${boardNos}]]*/ [] //날짜+보드번호
+            console.log(events);
+            console.log(boardNos);
+
+
+            // function emojiClickHandler(date) {
+            //     alert("이모지 클릭!!"+date);
+            //     //서버 호출
+            // }
+
+            function emojiClickHandler(date) {
+                boardNos.forEach(function (board) {
+                    if(board.date === date.toLocaleDateString('en-CA')){
+                        //서버 전송
+                    }
+                })
+            }
+
+            function renderCalendar() {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    selectable: true,
+
+                    eventContent: function (arg) {
+                        var event = arg.event;
+                        if (event.extendedProps.type === 'HAPPY') {
+                            return {
+                                html: `<div><img src="images/happy.png" class="event-icon" /></div>`
+
+                            };
+                        }
+                        if (event.extendedProps.type === 'ANGRY') {
+                            return {
+                                html: `<div><img src="angry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'CRY') {
+                            return {
+                                html: `<div><img src="images/cry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'SMILE') {
+                            return {
+                                html: `<div><img src="images/smile.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'CYNICAL') {
+                            return {
+                                html: `<div><img src="cynical.png" class="event-icon" /></div>`
+                            }
+                        }
+                    },
+
+                    events: events,
+
+                    eventDidMount: function(arg) {
+                        const userEmoji = arg.el.querySelectorAll('.event-icon');
+                        userEmoji.forEach((element) => {
+                            element.addEventListener('click', function() {
+                                emojiClickHandler(arg.event.start);
+                            });
+                        });
+                    },
+
+                    //eventColor: '#0e0f37',
+
+                    eventColor: '#F0F6F8',
+
+                    customButtons: {
+                        logoutButton: {
+                            text: 'LOGOUT',
+                            hint: '잘가요!',
+                            click: function () {
+                                var req = new XMLHttpRequest();
+                                req.open('GET', '/logout', true);
+                                alert(req);
+                            },
+                        }
+                    },
+
+                    headerToolbar: {
+                        left: 'prev',
+                        center: 'title',
+                        right: 'next'
+                    },
+
+                    footerToolbar: {
+                        right: 'logoutButton'
+                    },
+
+                    dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
+                        alert('clicked ' + event.date);
+                        //작성 팝업 controller
+                    }
+
+                });
+
+                calendar.render();
+            }
+            renderCalendar();
+
+        })
+    </script>
+</head>
+<body>
+<div id='calendar'></div>
+</body>
+</html>
