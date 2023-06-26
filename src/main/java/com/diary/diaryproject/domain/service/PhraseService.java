@@ -30,7 +30,7 @@ public class PhraseService {
 
     public PhraseDto findPhrase(String userId, LocalDate date) {
         PhraseDto phraseDto = new PhraseDto();
-        Phrases phrases = phrasesRepository.findByUserIdAndDate(userId, date);
+        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, date);
         phraseDto = phraseDto.toDto(phrases);
 
         return phraseDto;
