@@ -4,6 +4,11 @@ server:
   servlet:
     session:
       timeout: 360000s
+    # 인코딩 UTF-8로 설정
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 spring:
   profiles:
     active: dev
@@ -40,4 +45,3 @@ spring:
       max-request-size: 100MB
       # 파일 하나의 최대 크기
       max-file-size: 20MB
-
