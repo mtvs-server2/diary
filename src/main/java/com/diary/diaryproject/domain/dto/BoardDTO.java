@@ -6,19 +6,17 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Setter
+@NoArgsConstructor
 @Getter
+@Setter
 @ToString
-@Component
 public class BoardDTO {
-    private Long boardNo;
-    private Long id;
+    private Long boradNo;
     private String title;
     private String body;
     private LocalDate date;
-    private EmojiEnum emojiEnum;
+    private EmojiEnum emoji;
     private String phrase;
 
 }

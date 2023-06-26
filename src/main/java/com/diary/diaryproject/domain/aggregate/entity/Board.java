@@ -1,25 +1,21 @@
 package com.diary.diaryproject.domain.aggregate.entity;
 
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
-import lombok.*;
+
+import com.diary.diaryproject.domain.dto.BoardDTO;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
-@Getter
-//@Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@ToString
-//@Builder //빌더 제거 - 덮어쓰기X
 @Entity
+@Getter
 @Table(name = "Board")
 public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int boardNo;
+    private Long boradNo;
 
     @Column
     private String title;
@@ -33,4 +29,35 @@ public class Board {
     @Column(nullable = false)
     private LocalDate date;
 
+    @Column
+    private String phrase;
+
+    public Board() {
+
+    }
+
+    public Board(BoardDTO boardDTO) {
+        this.title = boardDTO.getTitle();
+        this.body = boardDTO.getBody();
+        this.emoji = boardDTO.getEmoji();
+        this.phrase = boardDTO.getPhrase();
+        this.date = boardDTO.getDate();
+    }
+
+    public Board(Long boradNo, String title, String body, String phrase, LocalDate date, EmojiEnum emojiEnum) {
+        this.boradNo = boradNo;
+        this.title = title;
+        this.body = body;
+        this.phrase = phrase;
+        this.date = date;
+        this.emoji = emojiEnum;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }
