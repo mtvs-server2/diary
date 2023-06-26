@@ -24,14 +24,14 @@ public class EmojiPostController {
     public String getEvent(Model model, @RequestParam("userId")Long userId){
 //            public String getEvent(Model model){
 
-//        List<EventDTO> events = emojiPostService.getEmoji(userId);
-//        List<NoDTO> boardNos = emojiPostService.getBoardNo(userId);
+        List<EventDTO> events = emojiPostService.getEmoji(userId);
+        List<NoDTO> boardNos = emojiPostService.getBoardNo(userId);
 
-        List<EventDTO> events = new ArrayList<>();
-        List<NoDTO> boardNos = new ArrayList<>();
-
-        events.add(new EventDTO(EmojiEnum.HAPPY, LocalDate.now()));
-        boardNos.add(new NoDTO(1L, LocalDate.now()));
+//        List<EventDTO> events = new ArrayList<>();
+//        List<NoDTO> boardNos = new ArrayList<>();
+//
+//        events.add(new EventDTO(EmojiEnum.HAPPY, LocalDate.now()));
+//        boardNos.add(new NoDTO(1L, LocalDate.now()));
 
         model.addAttribute("events", events);
         model.addAttribute("boardNos", boardNos);
