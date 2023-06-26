@@ -3,6 +3,7 @@ package com.diary.diaryproject.domain.aggregate.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -10,7 +11,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name = "Phrases")
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "phraseUniqueConstraint",
+                          columnNames = {"userId", "createdDate"}
+        )
+})
 public class Phrases {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +23,11 @@ public class Phrases {
     private Integer phraseNo;
 
     @Column
-    private Integer emotion;
+    private String userId;
 
     @Column
     private String phrase;
+
+    @Column
+    private LocalDate createdDate;
 }
