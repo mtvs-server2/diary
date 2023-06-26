@@ -6,4 +6,3 @@ spring:
         password: ENC(ePu7euYAic2ux9XJoM3wow==)
         hikari:
             auto-commit: true
-

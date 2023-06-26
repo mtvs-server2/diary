@@ -27,6 +27,12 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot:3.0.4'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
