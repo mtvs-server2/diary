@@ -33,16 +33,6 @@
             console.log(events);
 
 
-            var emoji = data.emoji;
-            if (emoji) {
-                var imagePath = getEmojiImagePath(emoji);
-                $('#emojiImage').attr('src', imagePath);
-            } else {
-                var imagePath = getEmojiImagePath('HAPPY');
-                $('#emojiImage').attr('src', imagePath);
-            }
-
-
             function emojiClickHandler(date) {
                 alert("이모지 클릭!!"+date);
                 //서버 호출
