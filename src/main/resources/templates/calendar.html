@@ -117,9 +117,7 @@
                             text: 'LOGOUT',
                             hint: '잘가요!',
                             click: function () {
-                                var req = new XMLHttpRequest();
-                                req.open('GET', '/logout', true);
-                                alert(req);
+                                //컨트롤러로
                             },
                         }
                     },
@@ -135,7 +133,7 @@
                     },
 
                     dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
-                        openModal(event.date);  //event.date 넣어주기
+                        openModal(event.date.toLocaleDateString('en-CA'));  //event.date 넣어주기
 
                     }
 
@@ -171,6 +169,7 @@
             } else {
                 form.action = "/save-board";
                 form.method = "post";
+                location.reload();    //페이지 새로고침
             }
 
             event.preventDefault();

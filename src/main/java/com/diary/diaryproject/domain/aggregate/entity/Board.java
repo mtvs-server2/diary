@@ -15,7 +15,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long boradNo;
+    private Long boardNo;
 
     @Column
     private String title;
@@ -32,6 +32,8 @@ public class Board {
     @Column
     private String phrase;
 
+    @Column int userId;
+
     public Board() {
 
     }
@@ -42,15 +44,18 @@ public class Board {
         this.emoji = boardDTO.getEmoji();
         this.phrase = boardDTO.getPhrase();
         this.date = boardDTO.getDate();
+        this.userId = boardDTO.getUserId();
     }
 
-    public Board(Long boradNo, String title, String body, String phrase, LocalDate date, EmojiEnum emojiEnum) {
-        this.boradNo = boradNo;
+    public Board(Long boradNo, String title, String body, String phrase, LocalDate date, EmojiEnum emojiEnum, int userId) {
+        this.boardNo = boradNo;
         this.title = title;
         this.body = body;
         this.phrase = phrase;
         this.date = date;
         this.emoji = emojiEnum;
+        this.userId = userId;
+
     }
 
     public void setTitle(String title) {
@@ -62,7 +67,7 @@ public class Board {
     }
 
     public Long getBoradNo() {
-        return boradNo;
+        return boardNo;
     }
 
     public String getTitle() {
@@ -83,5 +88,13 @@ public class Board {
 
     public String getPhrase() {
         return phrase;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
