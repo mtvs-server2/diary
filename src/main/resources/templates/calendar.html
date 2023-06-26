@@ -29,13 +29,23 @@
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            var events = /*[[${events}]]*/ [];
+            var events = /*[[${events}]]*/ [];   //날짜/ 이모지
+            var boardNos = /*[[${boardNos}]]*/ [] //날짜+보드번호
             console.log(events);
+            console.log(boardNos);
 
+
+            // function emojiClickHandler(date) {
+            //     alert("이모지 클릭!!"+date);
+            //     //서버 호출
+            // }
 
             function emojiClickHandler(date) {
-                alert("이모지 클릭!!"+date);
-                //서버 호출
+                boardNos.forEach(function (board) {
+                    if(board.date === date.toLocaleDateString('en-CA')){
+                        //서버 전송
+                    }
+                })
             }
 
             function renderCalendar() {

@@ -4,14 +4,15 @@ import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Builder
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@ToString
+//@Builder //빌더 제거 - 덮어쓰기X
 @Entity
 @Table(name = "Board")
 public class Board {
@@ -30,6 +31,6 @@ public class Board {
     private EmojiEnum emoji;
 
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
 }

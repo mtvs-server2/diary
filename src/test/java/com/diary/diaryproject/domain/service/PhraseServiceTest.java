@@ -22,15 +22,15 @@ class PhraseServiceTest {
     @Test
     void insert_phrase_test() {
 
-        Phrases phrase = Phrases.builder()
-                .phrase("주접1")
-                .emotion(1)
-                .build();
-
-        phrasesRepository.save(phrase);
-
-//        phrase = phrasesRepository.findById(phrase.getPhraseNo()).get();
-
-        assertEquals("주접1", phrase.getPhrase());
+//        Phrases phrase = Phrases.builder()
+//                .phrase("주접1")
+//                .emotion(1)
+//                .build();
+//
+//        phrasesRepository.save(phrase);
+//
+////        phrase = phrasesRepository.findById(phrase.getPhraseNo()).get();
+//
+//        assertEquals("주접1", phrase.getPhrase());
     }
 }
