@@ -302,6 +302,9 @@
                             </select>
                         </label>
                         <img id="emojiImage" src="" alt="Emoji" style="max-width: 50px;">
+                        <button type="button" onclick="window.open('jujeop/map', '지도', 'width=300', 'height=300')">지도</button>
+                        <p id="address" th:text="${address}"></p>
+                        <p id="roadAddress" th:text="${roadAddress}"></p>
                     </div>
                     <div class="form-group">
                         <label for="inputTitle">Title</label>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/jujeop")
@@ -26,24 +28,32 @@ public class MapController {
     public void printMap(){}
 
     @PostMapping("map")
-    public String map(@RequestBody AddressDTO addr, HttpServletRequest request) {
+    public Map<String, String> map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model) {
+
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("userId");
 
         mapService.saveToRepository(addr, id);
-
-        return "saveAddr";
-    }
-
-    @GetMapping("saveAddr")
-    public String saveAddr(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
-
         Address address = mapService.loadToRepository(id);
+
         model.addAttribute("address", address.getAddress());
         model.addAttribute("roadAddress", address.getRoadAddress());
 
-        return "saveAddr";
+        Map<String, String> data = new HashMap<>();
+        data.put("address", address.getAddress());
+        data.put("roadAddress", address.getRoadAddress());
+        return data;
     }
+
+    @GetMapping("saveAddr")
+    public String saveAddr(@RequestBody AddressDTO addr, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String id = (String) session.getAttribute("userId");
+
+
+
+
+        return "calendar";
+    }
+
 }

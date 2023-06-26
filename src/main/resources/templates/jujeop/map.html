@@ -63,10 +63,11 @@
                 // 더블클릭 이벤트 발생한 경우에만 주소 저장 요청
                 if (isMarkerClicked) {
                     var xhr = new XMLHttpRequest();
-                    var url = "/jujeop/map";
+                    var url = "map";
 
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-type", "application/json");
+                    console.log(result[0]);
                     var data = JSON.stringify({
                         roadAddress: result[0].road_address.address_name,
                         address: result[0].address.address_name
@@ -74,7 +75,8 @@
 
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                            location.href = "/jujeop/saveAddr";
+                            console.log(this.response);
+                            window.close();
                         }
                     };
 

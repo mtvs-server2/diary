@@ -1,9 +1,12 @@
 package com.diary.diaryproject.domain.controller;
 
+import com.diary.diaryproject.domain.aggregate.entity.Address;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.EventDTO;
 import com.diary.diaryproject.domain.dto.NoDTO;
 import com.diary.diaryproject.domain.service.EmojiPostService;
+import com.diary.diaryproject.domain.service.MapService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +19,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Controller
+@RequiredArgsConstructor
 public class EmojiPostController {
 
     @Autowired
     private EmojiPostService emojiPostService;
+
+    private final MapService mapService;
 
 
     @GetMapping("/calendar")
@@ -31,8 +37,12 @@ public class EmojiPostController {
 //        List<EventDTO> events = emojiPostService.getEmoji(id);
 //        List<NoDTO> boardNos = emojiPostService.getBoardNo(Long.valueOf(id));
 
+        HttpSession session = request.getSession();
+        String id = (String) session.getAttribute("userId");
+
         List<EventDTO> events = new ArrayList<>();
         List<NoDTO> boardNos = new ArrayList<>();
+
 
         events.add(new EventDTO(EmojiEnum.HAPPY, LocalDate.now()));
         events.add(new EventDTO(EmojiEnum.ANGRY, LocalDate.of(2023,6,1)));
@@ -41,6 +51,16 @@ public class EmojiPostController {
 
         model.addAttribute("events", events);
         model.addAttribute("boardNos", boardNos);
+
+//        if (model.containsAttribute("address")) {
+//            Address address = mapService.loadToRepository(id);
+//
+//            System.out.println("address.getAddress() = " + address.getAddress());
+//
+//            model.addAttribute("address", address.getAddress());
+//            model.addAttribute("roadAddress", address.getRoadAddress());
+//        }
+
 
         return "calendar";
     }
