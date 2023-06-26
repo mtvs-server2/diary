@@ -52,7 +52,8 @@ public class PhraseService {
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
-        phraseDto = phraseDto.toDto(phrases);
+
+        if(phrases != null) phraseDto = phraseDto.toDto(phrases);
 
         return phraseDto;
     }
