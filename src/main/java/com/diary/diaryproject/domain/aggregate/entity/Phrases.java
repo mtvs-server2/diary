@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
 @Entity
 @Table(name = "Phrases")
 public class Phrases {

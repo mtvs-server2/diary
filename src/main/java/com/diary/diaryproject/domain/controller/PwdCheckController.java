@@ -1,4 +1,4 @@
 package com.diary.diaryproject.domain.controller;
 
-public class SelectMemberController {
+public class PwdCheckController {
 }

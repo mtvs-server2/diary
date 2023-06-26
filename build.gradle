@@ -25,9 +25,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'mysql:mysql-connector-java:8.0.25'
     runtimeOnly 'com.mysql:mysql-connector-j'
-
-    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
 }
 
 tasks.named('test') {

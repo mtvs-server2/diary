@@ -41,4 +41,3 @@ spring:
       # 파일 하나의 최대 크기
       max-file-size: 20MB
 
-
