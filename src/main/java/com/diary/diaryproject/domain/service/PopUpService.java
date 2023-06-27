@@ -19,7 +19,8 @@ public class PopUpService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository, BoardDTO boardDTO, ModelMapper modelMapper) {
+    public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository,
+                        BoardDTO boardDTO, ModelMapper modelMapper) {
         this.checkTitle = checkTitle;
         this.checkBody = checkBody;
         this.boardRepository = boardRepository;
@@ -55,7 +56,7 @@ public class PopUpService {
 
     // 다이어리 id로 조회
     @Transactional
-    public BoardDTO findBioardById(Long boardId) {
+    public BoardDTO findBoardById(Long boardId) {
         Board findBoard = boardRepository.findById(boardId).get();
 
         if(findBoard != null) {
