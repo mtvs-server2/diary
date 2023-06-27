@@ -3,6 +3,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.200.231.220:54497
     username: prod
-    password: prod1234
+    password: ENC(nVAc8rbd+5JCGOA1VfGN+msp4lhw3y64)
     hikari:
       auto-commit: false

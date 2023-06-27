@@ -4,20 +4,25 @@ server:
   servlet:
     session:
       timeout: 360000s
+    # 인코딩 UTF-8로 설정
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 spring:
   profiles:
-    active: dev, local
+    active: dev
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
-  config:
-    activate:
-      on-profile: develop
-    use-legacy-processing: true
+#  config:
+#    activate:
+#    use-legacy-processing: true
 
 # jpa config
   jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
     generate-ddl : true
-#    show-sql: true
+    show-sql: true
     database: mysql
     properties:
       hibernate:
@@ -41,4 +46,9 @@ spring:
       # 파일 하나의 최대 크기
       max-file-size: 20MB
 
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
+open-ai:
+  api-key : G6Tym5NFuGdM0ZriHLXT1y6m8GoIZjD+Zmkof+fsRR++JFJyTuWz4otot8IW6/WUb9dailibXMdGYoHm+44JOQ==
