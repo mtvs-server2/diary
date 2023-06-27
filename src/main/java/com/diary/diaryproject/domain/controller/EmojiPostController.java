@@ -25,19 +25,12 @@ public class EmojiPostController {
     @GetMapping("/calendar")
     public String getEvent(Model model, HttpServletRequest request){
 //            public String getEvent(Model model){
-//        HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
+        String id = (String) session.getAttribute("userId");
 //        Long id = (long) request.getAttribute("userId");
 //
-        List<EventDTO> events = emojiPostService.getEmoji(0L);
-        List<NoDTO> boardNos = emojiPostService.getBoardNo(0L);
-
-//        List<EventDTO> events = new ArrayList<>();
-//        List<NoDTO> boardNos = new ArrayList<>();
-//
-//        events.add(new EventDTO(EmojiEnum.HAPPY, LocalDate.now()));
-//        events.add(new EventDTO(EmojiEnum.ANGRY, LocalDate.of(2023,6,1)));
-//        events.add(new EventDTO(EmojiEnum.SMILE, LocalDate.of(2023,6,2)));
-//        boardNos.add(new NoDTO(1L, LocalDate.now()));
+        List<EventDTO> events = emojiPostService.getEmoji(id);
+        List<NoDTO> boardNos = emojiPostService.getBoardNo(id);
 
         model.addAttribute("events", events);
         model.addAttribute("boardNos", boardNos);
