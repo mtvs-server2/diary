@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 @Getter
 @ToString
-@Component
 @AllArgsConstructor
 @NoArgsConstructor
 public class NoDTO {

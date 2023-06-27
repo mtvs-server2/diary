@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Builder
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "phraseUniqueConstraint",
-                          columnNames = {"userId", "createdDate"}
+                          columnNames = {"id", "date"}
         )
 })
 public class Phrases {
@@ -23,12 +23,12 @@ public class Phrases {
     @Id
     private Integer phraseNo;
 
-    @Column
-    private String userId;
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private String id;
 
     @Column
     private String phrase;
 
     @Column
-    private LocalDate createdDate;
+    private LocalDate date;
 }
