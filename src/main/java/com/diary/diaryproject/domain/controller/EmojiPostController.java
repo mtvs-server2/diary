@@ -1,5 +1,7 @@
 package com.diary.diaryproject.domain.controller;
 
+import com.diary.diaryproject.domain.aggregate.entity.User;
+import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.EventDTO;
 import com.diary.diaryproject.domain.dto.NoDTO;
 import com.diary.diaryproject.domain.service.EmojiPostService;
@@ -25,11 +27,10 @@ public class EmojiPostController {
 
     @GetMapping("/calendar")
     public String getEvent(Model model, HttpServletRequest request){
-//            public String getEvent(Model model){
         HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
-//        Long id = (long) request.getAttribute("userId");
-//
+        User user = (User) session.getAttribute("user");
+        String id = user.getId();
+
         List<EventDTO> events = emojiPostService.getEmoji(id);
         List<NoDTO> boardNos = emojiPostService.getBoardNo(id);
 

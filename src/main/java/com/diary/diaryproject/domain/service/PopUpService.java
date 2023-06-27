@@ -3,6 +3,7 @@ package com.diary.diaryproject.domain.service;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.dto.BoardDTO;
+import com.diary.diaryproject.domain.dto.UserDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
 import com.diary.diaryproject.domain.repository.UserRepository;
 import org.apache.catalina.session.StandardSession;
@@ -18,19 +19,16 @@ public class PopUpService {
     private final CheckTitle checkTitle;
     private final CheckBody checkBody;
     private final BoardRepository boardRepository;
-    private final BoardDTO boardDTO;
-
     private final ModelMapper modelMapper;
 
     @Autowired
 
     public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository,
-                        BoardDTO boardDTO, ModelMapper modelMapper) {
+                        ModelMapper modelMapper) {
 
         this.checkTitle = checkTitle;
         this.checkBody = checkBody;
         this.boardRepository = boardRepository;
-        this.boardDTO = boardDTO;
         this.modelMapper = modelMapper;
     }
 
@@ -49,7 +47,7 @@ public class PopUpService {
 
     // 다이어리 수정
     @Transactional
-    public void updateBoard(BoardDTO boardDTO) {
+    public BoardDTO updateBoard(BoardDTO boardDTO) {
         Board board = boardRepository.findById(boardDTO.getBoradNo()).get();
 
         if (board != null) {
@@ -59,12 +57,18 @@ public class PopUpService {
         }
 
         boardRepository.save(board);
+
+        BoardDTO res = modelMapper.map(board, BoardDTO.class);
+
+        return res;
     }
 
     // 다이어리 id로 조회
     @Transactional
     public BoardDTO findBoardById(Long boardId) {
         Board findBoard = boardRepository.findById(boardId).get();
+
+        BoardDTO boardDTO = new BoardDTO();
 
         if(findBoard != null) {
             boardDTO.setBody(findBoard.getBody());

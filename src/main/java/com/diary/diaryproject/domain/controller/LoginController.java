@@ -47,7 +47,7 @@ public class LoginController {
 
 
             // 로그인 성공 시, 다른 화면으로 리다이렉트한다.
-            return "/calendar";
+            return "redirect:/calendar";
 
         } else {
             // 로그인 실패 시, 초기 화면인 로그인 화면으로 돌아간다.
