@@ -58,7 +58,7 @@
             function emojiClickHandler(date) {
                 boardNos.forEach(function (board) {
                     if(board.date === date.toLocaleDateString('en-CA')){
-                        openModalWithData();
+                        openModalWithData(board.boardNo);
                     }
                 })
             }
@@ -133,7 +133,7 @@
                     },
 
                     dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
-                        openModal(event.date.toLocaleDateString('en-CA'));  //event.date 넣어주기
+                        openModal(event.date);  //event.date 넣어주기
 
                     }
 
