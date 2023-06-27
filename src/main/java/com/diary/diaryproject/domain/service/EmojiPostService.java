@@ -26,9 +26,9 @@ public class EmojiPostService {
     }
 
     @Transactional
-    public List<EventDTO> getEmoji(Long no) {
+    public List<EventDTO> getEmoji(String id) {
 
-        User user = userRepository.findById(no).get();
+        User user = userRepository.findById(id).get();
 
         List<Board> boards = boardRepository.findByUser(user);
 
@@ -46,7 +46,7 @@ public class EmojiPostService {
 
 
     @Transactional
-    public List<NoDTO> getBoardNo(Long id) { //id는 세션으로 받기
+    public List<NoDTO> getBoardNo(String id) { //id는 세션으로 받기
 
         User user = userRepository.findById(id).get();
 
