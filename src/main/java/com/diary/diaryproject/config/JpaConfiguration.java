@@ -1,7 +1,6 @@
 package com.diary.diaryproject.config;
 
 //import com.diary.diaryproject.domain.repository.JpaUserRepository;
-import com.diary.diaryproject.domain.repository.JpaUserRepository;
 import com.diary.diaryproject.domain.repository.UserRepository;
 import com.diary.diaryproject.domain.service.RegistMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,8 @@ public class JpaConfiguration {
 //        return new RegistMemberService(userRepository());
 //    }
 
-    @Bean
-    public UserRepository userRepository() {
-        return new JpaUserRepository(em);
-    }
+//    @Bean
+//    public UserRepository userRepository() {
+//        return new JpaUserRepository(em);
+//    }
 }
