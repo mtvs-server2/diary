@@ -43,23 +43,14 @@ public class Board {
 
     }
 
-    public Board(BoardDTO boardDTO) {
-        this.title = boardDTO.getTitle();
-        this.body = boardDTO.getBody();
-        this.emoji = boardDTO.getEmoji();
-        this.phrase = boardDTO.getPhrase();
-        this.date = boardDTO.getDate();
-        this.userId = boardDTO.getUserId();
-    }
-
-    public Board(Long boradNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum) {
-        this.boradNo = boradNo;
+    public Board(Long boardNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum, User user) {
+        this.boardNo = boardNo;
         this.title = title;
         this.body = body;
         this.phrase = phrase;
         this.date = date;
         this.emoji = emojiEnum;
-        this.userId = userId;
+        this.user = user;
 
     }
 
@@ -87,7 +78,7 @@ public class Board {
         this.phrase = phrase;
     }
 
-    public Long getBoradNo() {
+    public Long getBoardNo() {
         return boardNo;
     }
 
