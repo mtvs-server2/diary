@@ -13,5 +13,7 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Board findByUserAndDate(User user, LocalDate date);
+
+    List<Board> findByUser(User user);
 }
 

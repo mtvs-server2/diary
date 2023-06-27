@@ -13,10 +13,10 @@ import java.io.IOException;
 // 인증에 성공 시, 세션을 생성한 후 사용자 정보를 저장하고 로그인 후 리다이렉트!
 
 public class LoginController {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public LoginController() {
-        userRepository = new UserRepository();
+    public LoginController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
 
@@ -25,7 +25,7 @@ public class LoginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (userRepository.certifyUser(username, password)) {
+        if (userRepository.findByIdAndPwd(username, password).isPresent()) {
             // 세션을 생성하고, 사용자의 정보를 저장한다.
             HttpSession session = request.getSession();
             session.setAttribute("username", username);

@@ -19,7 +19,7 @@ public class BoardDTO {
     private String body;
     private LocalDate date;
     private EmojiEnum emoji;
-    private PhrasesDTO phrase;
+    private PhraseDTO phrase;
     private UserDTO user;
 
 }

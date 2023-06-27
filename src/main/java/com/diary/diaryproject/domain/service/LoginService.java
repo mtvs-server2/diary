@@ -23,7 +23,7 @@ public class LoginService {
     }
 
     public boolean login(HttpServletRequest request, String username, String password) {
-        boolean isAuthenticated = userRepository.certifyUser(username, password);
+        boolean isAuthenticated = userRepository.findByIdAndPwd(username, password).isPresent();
 
         if (isAuthenticated) {
             HttpSession session = request.getSession(true);

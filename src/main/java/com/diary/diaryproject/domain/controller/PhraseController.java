@@ -1,6 +1,6 @@
 package com.diary.diaryproject.domain.controller;
 
-import com.diary.diaryproject.domain.dto.PhraseDto;
+import com.diary.diaryproject.domain.dto.PhraseDTO;
 import com.diary.diaryproject.domain.service.PhraseService;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Controller
@@ -41,7 +40,7 @@ public class PhraseController {
         HttpHeaders headers = getHeader();
 
         try {
-            PhraseDto phraseDto = phraseService.findPhrase(userId, date);
+            PhraseDTO phraseDto = phraseService.findPhrase(userId, date);
             return new ResponseEntity(phraseDto, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

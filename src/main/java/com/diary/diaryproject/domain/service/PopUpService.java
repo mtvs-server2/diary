@@ -3,11 +3,11 @@ package com.diary.diaryproject.domain.service;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.dto.BoardDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 
 @Service
 public class PopUpService {
@@ -16,12 +16,15 @@ public class PopUpService {
     private final BoardRepository boardRepository;
     private final BoardDTO boardDTO;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository, BoardDTO boardDTO) {
+    public PopUpService(CheckTitle checkTitle, CheckBody checkBody, BoardRepository boardRepository, BoardDTO boardDTO, ModelMapper modelMapper) {
         this.checkTitle = checkTitle;
         this.checkBody = checkBody;
         this.boardRepository = boardRepository;
         this.boardDTO = boardDTO;
+        this.modelMapper = modelMapper;
     }
 
     public void checkBoardLength(BoardDTO boardDTO) {
@@ -32,8 +35,7 @@ public class PopUpService {
     // 다이어리 저장
     @Transactional
     public void saveBoard(BoardDTO boardDTO) {
-        Board board = new Board(boardDTO);
-
+        Board board =  modelMapper.map(boardDTO, Board.class);
         boardRepository.save(board);
     }
 
