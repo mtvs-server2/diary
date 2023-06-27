@@ -35,7 +35,7 @@ public class PopUpController {
         System.out.println("Text: " + body);
         System.out.println("emojiEnum = " + emojiEnum);
         // TODO : phrase 수정
-        boardDTO.setPhrase("Phrase표시 !!");
+//        boardDTO.setPhrase("Phrase표시 !!");
 
         try {
             popUpService.checkBoardLength(boardDTO);

@@ -9,5 +9,5 @@ import java.time.LocalDate;
 @Repository
 public interface PhrasesRepository extends JpaRepository<Phrases, Integer> {
 
-    Phrases findByUserIdAndCreatedDate(String userId, LocalDate date);
+    Phrases findByIdAndDate(String userId, LocalDate date);
 }

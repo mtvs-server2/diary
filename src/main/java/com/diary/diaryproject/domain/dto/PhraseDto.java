@@ -19,9 +19,9 @@ public class PhraseDto {
     public PhraseDto toDto(Phrases phrases) {
         return PhraseDto.builder()
                 .phraseNo(phrases.getPhraseNo())
-                .userId(phrases.getUserId())
+                .userId(phrases.getId())
                 .phrase(phrases.getPhrase())
-                .createdDate(phrases.getCreatedDate())
+                .createdDate(phrases.getDate())
                 .build();
     }
 }
