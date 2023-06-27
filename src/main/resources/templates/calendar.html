@@ -265,7 +265,6 @@
                     var body = data.body;
                     var phrase = data.phrase;
 
-
                     $('#inputTitle').val(title);
                     $('#inputBody').val(body);
                     $('#emoji').val(emoji).change();
@@ -466,7 +465,6 @@
                     console.log("data", JSON.parse(data));
                     const jsonData = JSON.parse(data);
                     document.getElementById("address").innerText = jsonData.address;
-                    // document.getElementById("roadAddress").innerText = jsonData.roadAddress;
 
                     xhr.send(data);
                     isMarkerClicked = false;

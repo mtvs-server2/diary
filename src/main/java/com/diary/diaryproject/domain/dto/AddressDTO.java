@@ -7,6 +7,9 @@ public class AddressDTO {
     private String roadAddress;
     private String address;
 
+    public AddressDTO() {
+    }
+
     public String getRoadAddress() {
         return roadAddress;
     }
