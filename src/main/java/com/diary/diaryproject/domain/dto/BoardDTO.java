@@ -19,5 +19,6 @@ public class BoardDTO {
     private LocalDate date;
     private EmojiEnum emoji;
     private String phrase;
+    private int userId;
 
 }
