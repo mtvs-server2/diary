@@ -1,5 +1,6 @@
 package com.diary.diaryproject.domain.controller;
 
+import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardDTO;
 import com.diary.diaryproject.domain.service.PopUpService;
@@ -43,6 +44,7 @@ public class PopUpController {
 //        boardDTO.setPhrase("Phrase표시 !!");
 
         try {
+
             popUpService.checkBoardLength(boardDTO);
             popUpService.saveBoard(boardDTO);
 
