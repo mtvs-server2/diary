@@ -4,6 +4,7 @@ import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.dto.PhraseDTO;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,8 +17,10 @@ public class PhraseService {
 
     private final PhrasesRepository phrasesRepository;
 
+    private final ModelMapper modelMapper;
+
     @Transactional
-    public void registPhraseToUser(String userId, String phrase) throws Exception {
+    public PhraseDTO registPhraseToUser(String userId, String phrase) throws Exception {
 
         Phrases phrases = Phrases.builder()
                 .id(userId)
@@ -26,15 +29,22 @@ public class PhraseService {
                 .build();
 
         phrasesRepository.save(phrases);
+
+        PhraseDTO result =  modelMapper.map(phrase, PhraseDTO.class);
+
+        return result;
     }
 
     @Transactional
-    public void modifyPhraseToUser(String userId, String date, String phrase) {
+    public PhraseDTO modifyPhraseToUser(String userId, String date, String phrase) {
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Phrases phrases = phrasesRepository.findByIdAndDate(userId, localDate);
-
         phrases.setPhrase(phrase);
+
+        PhraseDTO result =  modelMapper.map(phrases, PhraseDTO.class);
+
+        return result;
     }
 
     @Transactional

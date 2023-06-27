@@ -56,8 +56,8 @@ public class PhraseController {
         HttpHeaders headers = getHeader();
 
         try {
-            phraseService.registPhraseToUser(userId, phrase);
-            return new ResponseEntity(headers, HttpStatus.OK);
+            PhraseDTO data =  phraseService.registPhraseToUser(userId, phrase);
+            return new ResponseEntity(data, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             String message = e.getMessage();
@@ -74,8 +74,8 @@ public class PhraseController {
         HttpHeaders headers = getHeader();
 
         try {
-            phraseService.modifyPhraseToUser(userId, date, phrase);
-            return new ResponseEntity(headers, HttpStatus.OK);
+            PhraseDTO data = phraseService.modifyPhraseToUser(userId, date, phrase);
+            return new ResponseEntity(data, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             String message = e.getMessage();
