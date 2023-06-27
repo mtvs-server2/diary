@@ -83,7 +83,7 @@ public class PopUpController {
         System.out.println("get-board 호출");
 
         try {
-            boardDTO = popUpService.findBioardById(boardNo);
+            boardDTO = popUpService.findBoardById(boardNo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

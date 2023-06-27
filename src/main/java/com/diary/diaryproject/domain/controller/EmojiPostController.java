@@ -28,8 +28,8 @@ public class EmojiPostController {
 //        HttpSession session = request.getSession();
 //        Long id = (long) request.getAttribute("userId");
 //
-        List<EventDTO> events = emojiPostService.getEmoji(0L);
-        List<NoDTO> boardNos = emojiPostService.getBoardNo(0L);
+        List<EventDTO> events = emojiPostService.getEmoji("test");
+        List<NoDTO> boardNos = emojiPostService.getBoardNo("test");
 
 //        List<EventDTO> events = new ArrayList<>();
 //        List<NoDTO> boardNos = new ArrayList<>();

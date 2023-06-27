@@ -8,9 +8,6 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userNo;
-
     private String id;
     @Column
     private String pwd;
