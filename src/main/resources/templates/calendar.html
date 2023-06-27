@@ -33,11 +33,6 @@
         #inputBody {
             height: 400px;
         }
-        #emojiImage {
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
-        }
     </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
@@ -58,7 +53,6 @@
             function emojiClickHandler(date) {
                 boardNos.forEach(function (board) {
                     if(board.date === date.toLocaleDateString('en-CA')){
-                        alert("click완");
                         openModalWithData(board.boardNo);
                     }
                 })
@@ -149,9 +143,6 @@
             var formattedDate = date.toLocaleDateString('en-CA');
             $('#dateText').val(formattedDate);
 
-            var imagePath = getEmojiImagePath('HAPPY');
-            $('#emojiImage').attr('src', imagePath);
-
             $('#myModal').modal('show');
         }
 
@@ -173,15 +164,20 @@
             if (saveButton.innerText === 'Update') {
                 form.action = "/update-board";
                 form.method = "post";
+                console.log('update');
+                //location.reload();
+                // window.location.href = 'http://localhost:8001/calendar';
+
             } else {
                 form.action = "/save-board";
                 form.method = "post";
-                location.reload();    //페이지 새로고침
+                // window.location.href = 'http://localhost:8001/calendar';
             }
 
             event.preventDefault();
 
             var formData = new FormData(form);
+            let emoji = '';
 
             fetch(form.action, {
                 method: form.method,
@@ -191,13 +187,15 @@
                     if (response.ok) {
                         $('#myForm')[0].reset();
                         $('#myModal').modal('hide');
+                        const data = response.json();
+                        console.log(data.result);
+                        data.then(data => {
+                             emoji = data.emoji;
+                             console.log(emoji);
+                        })
+                        // console.log(data.body);
                     } else {
                         return response.text();
-                    }
-                })
-                .then(errorMessage => {
-                    if (errorMessage) {
-                        alert('An error occurred: ' + errorMessage);
                     }
                 })
                 .catch(error => {
@@ -205,26 +203,17 @@
                 });
         }
         function openModalWithData(boardNo) {
-            alert("도착1");
             $('#boardNo').val(boardNo);
             console.log(boardNo);
             var events = /*[[${events}]]*/ [];
             fetch('/get-board?boardNo='+boardNo)
             .then(response => response.json())
                 .then(data => {
-                    alert("fetch");
                     var emoji = data.emoji;
                     var title = data.title;
                     var body = data.body;
                     var phrase = data.phrase;
 
-                    if (emoji) {
-                        var imagePath = getEmojiImagePath(emoji);
-                        $('#emojiImage').attr('src', imagePath);
-                    } else {
-                        var imagePath = getEmojiImagePath('HAPPY');
-                        $('#emojiImage').attr('src', imagePath);
-                    }
 
                     $('#inputTitle').val(title);
                     $('#inputBody').val(body);
@@ -312,7 +301,7 @@
                                 <option value="CYNICAL">CYNICAL😐</option>
                             </select>
                         </label>
-                        <img id="emojiImage" src="" alt="Emoji" style="max-width: 50px;">
+
                     </div>
                     <div class="form-group">
                         <label for="inputTitle">Title</label>

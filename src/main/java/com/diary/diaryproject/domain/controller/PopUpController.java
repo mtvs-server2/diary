@@ -1,17 +1,24 @@
 package com.diary.diaryproject.domain.controller;
 
+import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardDTO;
+import com.diary.diaryproject.domain.dto.UserDTO;
 import com.diary.diaryproject.domain.service.PopUpService;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -19,22 +26,30 @@ import java.time.format.DateTimeFormatter;
 public class PopUpController {
 
     private final PopUpService popUpService;
-    private BoardDTO boardDTO;
 
-    public PopUpController(PopUpService popUpService, BoardDTO boardDTO) {
+    private final ModelMapper modelMapper;
+
+    public PopUpController(PopUpService popUpService, ModelMapper modelMapper) {
         this.popUpService = popUpService;
-        this.boardDTO = boardDTO;
+        this.modelMapper = modelMapper;
     }
 
     // 다이어리 입력 받아서 저장
     @PostMapping("/save-board")
     public ResponseEntity<String> saveData(@RequestParam("title") String title, @RequestParam("body") String body,
-                           @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("date") String date) {
+                                           @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("date") String date, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        UserDTO convertedUser = modelMapper.map(user, UserDTO.class);
+        BoardDTO boardDTO = new BoardDTO();
+
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
         boardDTO.setEmoji(emojiEnum);
         boardDTO.setDate(localDate);
+        boardDTO.setUser(convertedUser);
 
         System.out.println("Title: " + title);
         System.out.println("Text: " + body);
@@ -56,8 +71,14 @@ public class PopUpController {
 
     // 다이어리 내용 수정
     @PostMapping("/update-board")
-    public String updateData(@RequestParam("title") String title, @RequestParam("body") String body,
+    @ResponseBody
+    public ResponseEntity updateData(@RequestParam("title") String title, @RequestParam("body") String body,
                            @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("boardNo") Long boardNo) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        BoardDTO boardDTO = new BoardDTO();
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
         boardDTO.setEmoji(emojiEnum);
@@ -67,12 +88,13 @@ public class PopUpController {
 
         try {
             popUpService.checkBoardLength(boardDTO);
-            popUpService.updateBoard(boardDTO);
+            BoardDTO data = popUpService.updateBoard(boardDTO);
+            return ResponseEntity.ok(data);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            String message = "실패";
+            return new ResponseEntity(message, headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return "redirect:/";
     }
 
     // 저장된 다이어리 가져오기
@@ -82,6 +104,7 @@ public class PopUpController {
 //    public ResponseEntity<BoardDTO> getBoard(Long boardNo) {
         System.out.println("get-board 호출");
 
+        BoardDTO boardDTO = new BoardDTO();
         try {
             boardDTO = popUpService.findBoardById(boardNo);
         } catch (Exception e) {
