@@ -58,6 +58,7 @@ public class PopUpController {
 //        boardDTO.setPhrase("Phrase표시 !!");
 
         try {
+
             popUpService.checkBoardLength(boardDTO);
             popUpService.saveBoard(boardDTO);
 

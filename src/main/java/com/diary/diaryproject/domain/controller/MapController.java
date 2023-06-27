@@ -7,9 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 @RequestMapping("/jujeop")
@@ -26,24 +30,23 @@ public class MapController {
     public void printMap(){}
 
     @PostMapping("map")
-    public String map(@RequestBody AddressDTO addr, HttpServletRequest request) {
+    public String map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
+
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("userId");
 
         mapService.saveToRepository(addr, id);
-
-        return "saveAddr";
-    }
-
-    @GetMapping("saveAddr")
-    public String saveAddr(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
-
         Address address = mapService.loadToRepository(id);
-        model.addAttribute("address", address.getAddress());
-        model.addAttribute("roadAddress", address.getRoadAddress());
 
-        return "saveAddr";
+        return "redirect:./calendarResult?address="+URLEncoder.encode(address.getAddress(),"utf-8")+"&roadAddress="+URLEncoder.encode(address.getRoadAddress(),"utf-8");
     }
+
+    @GetMapping("/calendarResult")
+    public String saveAddr(@RequestParam("address") String address, @RequestParam("roadAddress") String roadAddress, Model model) {
+        model.addAttribute("address", address);
+        model.addAttribute("roadAddress", roadAddress);
+
+        return "calendar";
+    }
+
 }

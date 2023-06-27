@@ -6,6 +6,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <style>
+        .map_wrap {position:relative;width:100%;height:150px;}
+        .title {font-weight:bold;display:block;}
+        .hAddr {position:absolute;left:10px;top:10px;border-radius: 2px;background:#fff;background:rgba(255,255,255,0.8);z-index:1;padding:5px;}
+        #centerAddr {display:block;margin-top:2px;font-weight: normal;}
+        .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+    </style>
+
     <style>
         html, body {
             margin:13px;
@@ -28,11 +37,12 @@
             height: 100px; /* Set the desired height for the cells */
         }
         .modal-dialog {
-            max-width: 800px;
+            max-width: 1500px;
         }
         #inputBody {
-            height: 400px;
+            height: 300px;
         }
+
     </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
@@ -301,8 +311,14 @@
                                 <option value="CYNICAL">CYNICAL😐</option>
                             </select>
                         </label>
-
+                        <div class="map_wrap">
+                            <div id="map" style="width:50%;height:150%;overflow:hidden;"></div>
+                        </div>
                     </div>
+                    <div>
+                        <p>선택하신 곳의 주소는 <span th:text="${address}" id="address"></span> 입니다.</p>
+                    </div>
+
                     <div class="form-group">
                         <label for="inputTitle">Title</label>
                         <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
@@ -335,5 +351,104 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b7f2f7af3679295d900e10ea20cbc904&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'),
+        mapOption = {
+            center: new kakao.maps.LatLng(37.4137, 127.0992),
+            level: 1
+        };
+
+
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    var marker = new kakao.maps.Marker(),
+        infowindow = new kakao.maps.InfoWindow({zindex:1});
+
+    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+    var isMarkerClicked = false; // 초기에 맵이 보이도록 설정
+
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+                detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+
+                var content = '<div class="bAddr">' +
+                    '<span class="title">법정동 주소정보</span>' +
+                    detailAddr +
+                    '</div>';
+
+
+                marker.setPosition(mouseEvent.latLng);
+                marker.setMap(map);
+
+
+                infowindow.setContent(content);
+                infowindow.open(map, marker);
+
+                if (isMarkerClicked) {
+
+                    var xhr = new XMLHttpRequest();
+                    var url = "/jujeop/map";
+
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    var data = JSON.stringify({
+                        roadAddress: result[0].road_address.address_name,
+                        address: result[0].address.address_name
+                    });
+
+
+
+                    console.log("data", JSON.parse(data));
+                    const jsonData = JSON.parse(data);
+                    document.getElementById("address").innerText = jsonData.address;
+
+                    xhr.send(data);
+                    isMarkerClicked = false;
+                }
+            }
+        });
+    });
+
+    kakao.maps.event.addListener(map, 'dblclick', function() {
+        isMarkerClicked = true;
+        var mapWrap = document.querySelector('.map_wrap');
+        mapWrap.style.display = 'none';
+    });
+
+    kakao.maps.event.addListener(map, 'idle', function() {
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+    });
+
+    function searchAddrFromCoords(coords, callback) {
+        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    }
+
+    function searchDetailAddrFromCoords(coords, callback) {
+        geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
+
+    // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+    function displayCenterInfo(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            var infoDiv = document.getElementById('centerAddr');
+
+            for(var i = 0; i < result.length; i++) {
+                // 행정동의 region_type 값은 'H' 이므로
+                if (result[i].region_type === 'H') {
+                    // infoDiv.innerHTML = result[i].address_name;
+                    break;
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>
