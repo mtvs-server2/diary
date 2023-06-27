@@ -1,7 +1,7 @@
 package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.domain.aggregate.entity.Phrases;
-import com.diary.diaryproject.domain.dto.PhraseDto;
+import com.diary.diaryproject.domain.dto.PhraseDTO;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +46,8 @@ public class PhraseService {
         phrasesRepository.delete(phrases);
     }
 
-    public PhraseDto findPhrase(String userId, String date) {
-        PhraseDto phraseDto = new PhraseDto();
+    public PhraseDTO findPhrase(String userId, String date) {
+        PhraseDTO phraseDto = new PhraseDTO();
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Phrases phrases = phrasesRepository.findByIdAndDate(userId, localDate);

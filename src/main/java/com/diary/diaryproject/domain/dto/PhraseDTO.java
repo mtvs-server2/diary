@@ -10,18 +10,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 @Builder
-public class PhraseDto {
+public class PhraseDTO {
     private Integer phraseNo;
-    private String userId;
+    private String id;
     private String phrase;
-    private LocalDate createdDate;
+    private LocalDate date;
 
-    public PhraseDto toDto(Phrases phrases) {
-        return PhraseDto.builder()
+    public PhraseDTO toDto(Phrases phrases) {
+        return PhraseDTO.builder()
                 .phraseNo(phrases.getPhraseNo())
-                .userId(phrases.getId())
+                .id(phrases.getId())
                 .phrase(phrases.getPhrase())
-                .createdDate(phrases.getDate())
+                .date(phrases.getDate())
                 .build();
     }
 }
