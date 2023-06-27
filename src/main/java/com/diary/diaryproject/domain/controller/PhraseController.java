@@ -33,6 +33,7 @@ public class PhraseController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
         return headers;
     }
+
     @GetMapping("/{userId}")
     @ResponseBody
     private ResponseEntity findPhrase(@PathVariable String userId, @RequestParam String date) {
@@ -103,6 +104,7 @@ public class PhraseController {
     @GetMapping("/test")
     public String getTest(Model model) {
         String key = stringEncryptor.decrypt(openaiKey);
+
         model.addAttribute("openaiKey", key);
 
         return "test/test";

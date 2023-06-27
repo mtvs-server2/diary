@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 public class PopUpController {
 
@@ -26,16 +29,18 @@ public class PopUpController {
     // 다이어리 입력 받아서 저장
     @PostMapping("/save-board")
     public ResponseEntity<String> saveData(@RequestParam("title") String title, @RequestParam("body") String body,
-                           @RequestParam("emoji") EmojiEnum emojiEnum) {
+                           @RequestParam("emoji") EmojiEnum emojiEnum, @RequestParam("date") String date) {
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
         boardDTO.setBody(body);
         boardDTO.setTitle(title);
         boardDTO.setEmoji(emojiEnum);
+        boardDTO.setDate(localDate);
 
         System.out.println("Title: " + title);
         System.out.println("Text: " + body);
         System.out.println("emojiEnum = " + emojiEnum);
         // TODO : phrase 수정
-        boardDTO.setPhrase("Phrase표시 !!");
+//        boardDTO.setPhrase("Phrase표시 !!");
 
         try {
             popUpService.checkBoardLength(boardDTO);
@@ -74,6 +79,7 @@ public class PopUpController {
     @GetMapping("/get-board")
     @ResponseBody
     public ResponseEntity<BoardDTO> getBoard(@RequestParam("boardNo") Long boardNo) {
+//    public ResponseEntity<BoardDTO> getBoard(Long boardNo) {
         System.out.println("get-board 호출");
 
         try {

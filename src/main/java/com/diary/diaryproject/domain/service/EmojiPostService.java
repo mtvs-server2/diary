@@ -22,16 +22,15 @@ public class EmojiPostService {
     }
 
     @Transactional
-    public List<EventDTO> getEmoji(Long id) {
+    public List<EventDTO> getEmoji(int id) {
 
-        Board findBoard = boardRepository.findById(id).get();
+        List<Board> boards = boardRepository.findByUserId(id);
 
         List<EventDTO> events = new ArrayList<>();
 
-        if (findBoard != null) {
-            EmojiEnum emoji= findBoard.getEmoji();
-            LocalDate date = findBoard.getDate();
-
+        for(Board board : boards) {
+            EmojiEnum emoji = board.getEmoji();
+            LocalDate date = board.getDate();
             events.add(new EventDTO(emoji, date));
         }
 
@@ -41,16 +40,15 @@ public class EmojiPostService {
 
 
     @Transactional
-    public List<NoDTO> getBoardNo(Long id) {
+    public List<NoDTO> getBoardNo(int id) { //id는 세션으로 받기
 
-        Board findBoard = boardRepository.findById(id).get();
+        List<Board> boards = boardRepository.findByUserId(id);
 
         List<NoDTO> boardNos = new ArrayList<>();
 
-        if(findBoard != null) {
-            Long boardNo = findBoard.getBoradNo();
-            LocalDate date = findBoard.getDate();
-
+        for(Board board : boards) {
+            Long boardNo = board.getBoardNo();
+            LocalDate date = board.getDate();
             boardNos.add(new NoDTO(boardNo, date));
         }
 

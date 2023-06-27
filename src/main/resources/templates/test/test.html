@@ -11,13 +11,10 @@
     <div id="result"></div>
     <script>
         async function getPhrase() {
+
             const api_key = '[[${ openaiKey }]]'
             const name = '박성준';
-
-            const messages = [
-                {"role": "system", "content": `당신은 느끼하며 반말을 합니다. ${name}을 반드시 이용해서 주접을 떠세요`},
-                {"role": "system", "content": "한 문장으로 대답하세요"}
-            ]
+            let value = ''
 
             const config = {
                 headers: {
@@ -32,15 +29,32 @@
                 },
             }
 
-            const data = {
-                model: 'gpt-3.5-turbo',
-                temperature: 0.5,
-                n: 1,
-                messages: messages,
-            }
+           await axios
+                    .get('/phrases/myrhymetree?date=2023-06-26', config1)
+                    .then((response) => {
+                        let resultDiv = document.getElementById('result')
+                        value = response.data.phrase;
+                        resultDiv.innerHTML += `<div>${ value }</div>`
+                    }).catch((e) => {
+                    console.log(e);
+            })
 
-            await axios
-                .post('https://api.openai.com/v1/chat/completions', data, config)
+            if(!value) {
+
+                const messages = [
+                    {"role": "system", "content": `당신은 느끼하며 반말을 합니다. ${name}을 반드시 이용해서 주접을 떠세요`},
+                    {"role": "system", "content": "한 문장으로 대답하세요"}
+                ]
+
+                const data = {
+                    model: 'gpt-3.5-turbo',
+                    temperature: 0.5,
+                    n: 1,
+                    messages: messages,
+                }
+
+                await axios
+                    .post('https://api.openai.com/v1/chat/completions', data, config)
                     .then((response) => {
                         let resultDiv = document.getElementById('result')
                         console.log(response.data.choices[0].message.content);
@@ -52,17 +66,18 @@
                                 .join('<br/>')}</div>`
                         })
                         axios
-                        .post('/phrases/myrhymetree', phrase, config1)
-                        .then((res) => {
-                            console.log(res);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
+                            .post('/phrases/myrhymetree', phrase, config1)
+                            .then((res) => {
+                                console.log(res);
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
                     })
                     .catch((error) => {
                         console.error(error)
                     })
+            }
         }
     </script>
 </body>
