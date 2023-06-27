@@ -118,15 +118,15 @@
 
                     eventColor: '#F0F6F8',
 
-                    customButtons: {
-                        logoutButton: {
-                            text: 'LOGOUT',
-                            hint: '잘가요!',
-                            click: function () {
-                                //컨트롤러로
-                            },
-                        }
-                    },
+                    // customButtons: {
+                    //     logoutButton: {
+                    //         text: 'LOGOUT',
+                    //         hint: '잘가요!',
+                    //         click: function () {
+                    //
+                    //         },
+                    //     }
+                    // },
 
                     headerToolbar: {
                         left: 'prev',
@@ -283,6 +283,7 @@
 </head>
 <body>
 <div id='calendar'></div>
+<button onclick="logout()">로그아웃</button>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -336,7 +337,13 @@
                         <textarea class="form-control" id="boardNo" name="boardNo"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary" id="saveButton" onclick="closeModalAndSubmit()">Save</button>
+
                 </form>
+                <script>
+                    function logout() {
+                        location.href="/logout";
+                    }
+                </script>
             </div>
         </div>
     </div>

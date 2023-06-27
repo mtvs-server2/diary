@@ -6,12 +6,31 @@
 </head>
 <body>
 <h1 align="center">회원가입</h1>
-<form action="regist", method="post">
-    <label>아이디: </label><input type="text" , name="id"><br>
-    <label>비밀번호: </label><input type="password" , name="pwd"><br>
-    <label>비밀번호 재확인: </label><input type="password" , name="pwd2"><br>
-    <label>닉네임: </label><input type="text" , name="nickName"><br>
-    <button type="submit">가입하기</button>
+<form th:action="@{/regist}" method="post" modelAttribute="userDTO">
+    <div align="center">
+        <label>아이디</label><br>
+        <input type="text" , name="id" placeholder="ID">
+        <p th:text="${ errormesg }"></p>
+        <span th:text = "${ valid_id }"></span>
+    </div>
+    <div align="center">
+        <label>비밀번호</label><br>
+        <input type="password" , name="pwd" placeholder="Password"><br>
+        <span th:text = "${ valid_pwd }"></span>
+    </div>
+    <div align="center">
+        <label>비밀번호 재확인</label><br>
+        <input th:text type="password" , name="pwd2"><br>
+        <span th:text="${ message }"></span>
+
+    <div align="center">
+        <label>닉네임</label><br>
+        <input type="text" , name="nickName" placeholder="nickName"><br>
+        <span th:text="${ valid_nickName }"></span>
+    </div><br>
+    <div align="center">
+        <button type="submit">가입하기</button>
+    </div>
 </form>
 </body>
 </html>
