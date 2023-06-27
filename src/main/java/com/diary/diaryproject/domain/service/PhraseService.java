@@ -21,9 +21,9 @@ public class PhraseService {
     public void registPhraseToUser(String userId, String phrase) throws Exception {
 
         Phrases phrases = Phrases.builder()
-                .userId(userId)
+                .id(userId)
                 .phrase(phrase)
-                .createdDate(LocalDate.now())
+                .date(LocalDate.now())
                 .build();
 
         phrasesRepository.save(phrases);
@@ -33,7 +33,7 @@ public class PhraseService {
     public void modifyPhraseToUser(String userId, String date, String phrase) {
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
+        Phrases phrases = phrasesRepository.findByIdAndDate(userId, localDate);
 
         phrases.setPhrase(phrase);
     }
@@ -42,7 +42,7 @@ public class PhraseService {
     public void removePhraseToUser(String userId, String date, String phrase) {
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
+        Phrases phrases = phrasesRepository.findByIdAndDate(userId, localDate);
 
         phrasesRepository.delete(phrases);
     }
@@ -51,8 +51,9 @@ public class PhraseService {
         PhraseDto phraseDto = new PhraseDto();
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Phrases phrases = phrasesRepository.findByUserIdAndCreatedDate(userId, localDate);
-        phraseDto = phraseDto.toDto(phrases);
+        Phrases phrases = phrasesRepository.findByIdAndDate(userId, localDate);
+
+        if(phrases != null) phraseDto = phraseDto.toDto(phrases);
 
         return phraseDto;
     }

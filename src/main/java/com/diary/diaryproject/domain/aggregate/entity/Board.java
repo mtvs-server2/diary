@@ -3,10 +3,12 @@ package com.diary.diaryproject.domain.aggregate.entity;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 
 import com.diary.diaryproject.domain.dto.BoardDTO;
+import com.diary.diaryproject.domain.dto.UserDTO;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,16 +25,19 @@ public class Board {
     @Column
     private String body;
 
-    @Column(nullable = false)
+    @Column
     private EmojiEnum emoji;
 
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column
-    private String phrase;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private User user;
 
-    @Column int userId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "phaseNo")
+    private Phrases phrase;
 
     public Board() {
 
@@ -47,8 +52,8 @@ public class Board {
         this.userId = boardDTO.getUserId();
     }
 
-    public Board(Long boradNo, String title, String body, String phrase, LocalDate date, EmojiEnum emojiEnum, int userId) {
-        this.boardNo = boradNo;
+    public Board(Long boradNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum) {
+        this.boradNo = boradNo;
         this.title = title;
         this.body = body;
         this.phrase = phrase;
@@ -68,6 +73,18 @@ public class Board {
 
     public void setEmoji(EmojiEnum emoji) {
         this.emoji = emoji;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setPhrase(Phrases phrase) {
+        this.phrase = phrase;
     }
 
     public Long getBoradNo() {
@@ -90,15 +107,7 @@ public class Board {
         return date;
     }
 
-    public String getPhrase() {
+    public Phrases getPhrase() {
         return phrase;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }
