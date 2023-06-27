@@ -66,6 +66,10 @@ public class Board {
         this.body = body;
     }
 
+    public void setEmoji(EmojiEnum emoji) {
+        this.emoji = emoji;
+    }
+
     public Long getBoradNo() {
         return boardNo;
     }

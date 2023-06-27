@@ -32,7 +32,6 @@ public class PopUpService {
     // 다이어리 저장
     @Transactional
     public void saveBoard(BoardDTO boardDTO) {
-        boardDTO.setDate(LocalDate.now());
         Board board = new Board(boardDTO);
 
         boardRepository.save(board);
@@ -46,6 +45,7 @@ public class PopUpService {
         if (board != null) {
             board.setBody(boardDTO.getBody());
             board.setTitle(boardDTO.getTitle());
+            board.setEmoji(boardDTO.getEmoji());
         }
 
         boardRepository.save(board);

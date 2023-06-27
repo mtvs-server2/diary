@@ -58,6 +58,7 @@
             function emojiClickHandler(date) {
                 boardNos.forEach(function (board) {
                     if(board.date === date.toLocaleDateString('en-CA')){
+                        alert("click완");
                         openModalWithData(board.boardNo);
                     }
                 })
@@ -145,8 +146,12 @@
 
         })
         function openModal(date) {
-            console.log(date);
-            $('#myForm')[0].reset();
+            var formattedDate = date.toLocaleDateString('en-CA');
+            $('#dateText').val(formattedDate);
+
+            var imagePath = getEmojiImagePath('HAPPY');
+            $('#emojiImage').attr('src', imagePath);
+
             $('#myModal').modal('show');
         }
 
@@ -159,6 +164,8 @@
                 openModalWithData();
             });
         });
+
+
         function closeModalAndSubmit() {
             var form = document.getElementById("myForm");
             var saveButton = document.getElementById("saveButton");
@@ -197,12 +204,16 @@
                     console.error('Error submitting form');
                 });
         }
-        function openModalWithData() {
+        function openModalWithData(boardNo) {
+            alert("도착1");
+            $('#boardNo').val(boardNo);
+            console.log(boardNo);
             var events = /*[[${events}]]*/ [];
-            fetch('/get-board')
-                .then(response => response.json())
+            fetch('/get-board?boardNo='+boardNo)
+            .then(response => response.json())
                 .then(data => {
-                    var emoji = data.emojiEnum;
+                    alert("fetch");
+                    var emoji = data.emoji;
                     var title = data.title;
                     var body = data.body;
                     var phrase = data.phrase;
@@ -306,6 +317,10 @@
                         <label for="inputTitle">Title</label>
                         <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
                     </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="dateText">Date</label>
+                        <textarea class="form-control" id="dateText" name="date" readonly ></textarea>
+                    </div>
                     <div class="form-group" id="phraseField" style="display: none;">
                         <label for="inputPhrase">Phrase</label>
                         <input type="text" class="form-control" id="inputPhrase" name="phrase" placeholder="Enter phrase" readonly>
@@ -313,6 +328,10 @@
                     <div class="form-group">
                         <label for="inputBody">Body</label>
                         <textarea class="form-control" id="inputBody" rows="4" name="body" placeholder="Enter body"></textarea>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="boardNo">BoardNo</label>
+                        <textarea class="form-control" id="boardNo" name="boardNo"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary" id="saveButton" onclick="closeModalAndSubmit()">Save</button>
                 </form>
