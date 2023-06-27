@@ -125,7 +125,10 @@ class PhraseServiceTest {
         user.setNickName("정품");
         userRepository.save(user);
 
-       User user1 = userRepository.findById(1L).get();
+        User user1 = new User();
+        if(userRepository.findById("myrhymetree").isPresent()) {
+            user1 = userRepository.findById("myrhymetree").get();
+        }
 
         Phrases phrases = new Phrases();
         phrases.setPhrase("주접주접주접");
