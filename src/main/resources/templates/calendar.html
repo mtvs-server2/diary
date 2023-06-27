@@ -63,7 +63,6 @@
             function emojiClickHandler(date) {
                 boardNos.forEach(function (board) {
                     if(board.date === date.toLocaleDateString('en-CA')){
-                        alert("click완");
                         openModalWithData(board.boardNo);
                     }
                 })
@@ -175,15 +174,20 @@
             if (saveButton.innerText === 'Update') {
                 form.action = "/update-board";
                 form.method = "post";
+                console.log('update');
+                //location.reload();
+                // window.location.href = 'http://localhost:8001/calendar';
+
             } else {
                 form.action = "/save-board";
                 form.method = "post";
-                location.reload();    //페이지 새로고침
+                // window.location.href = 'http://localhost:8001/calendar';
             }
 
             event.preventDefault();
 
             var formData = new FormData(form);
+            let emoji = '';
 
             fetch(form.action, {
                 method: form.method,
@@ -193,13 +197,15 @@
                     if (response.ok) {
                         $('#myForm')[0].reset();
                         $('#myModal').modal('hide');
+                        const data = response.json();
+                        console.log(data.result);
+                        data.then(data => {
+                             emoji = data.emoji;
+                             console.log(emoji);
+                        })
+                        // console.log(data.body);
                     } else {
                         return response.text();
-                    }
-                })
-                .then(errorMessage => {
-                    if (errorMessage) {
-                        alert('An error occurred: ' + errorMessage);
                     }
                 })
                 .catch(error => {
@@ -207,14 +213,12 @@
                 });
         }
         function openModalWithData(boardNo) {
-            alert("도착1");
             $('#boardNo').val(boardNo);
             console.log(boardNo);
             var events = /*[[${events}]]*/ [];
             fetch('/get-board?boardNo='+boardNo)
             .then(response => response.json())
                 .then(data => {
-                    alert("fetch");
                     var emoji = data.emoji;
                     var title = data.title;
                     var body = data.body;
@@ -310,7 +314,6 @@
                         <div class="map_wrap">
                             <div id="map" style="width:50%;height:150%;overflow:hidden;"></div>
                         </div>
-
                     </div>
                     <div>
                         <p>선택하신 곳의 주소는 <span th:text="${address}" id="address"></span> 입니다.</p>
