@@ -24,9 +24,13 @@ public class EmojiPostController {
 
     @GetMapping("/calendar")
     public String getEvent(Model model, HttpServletRequest request){
+//            public String getEvent(Model model){
+        HttpSession session = request.getSession();
+        String id = (String) session.getAttribute("userId");
+//        Long id = (long) request.getAttribute("userId");
 //
-        List<EventDTO> events = emojiPostService.getEmoji("qq");
-        List<NoDTO> boardNos = emojiPostService.getBoardNo("qq");
+        List<EventDTO> events = emojiPostService.getEmoji(id);
+        List<NoDTO> boardNos = emojiPostService.getBoardNo(id);
 
         model.addAttribute("events", events);
         model.addAttribute("boardNos", boardNos);

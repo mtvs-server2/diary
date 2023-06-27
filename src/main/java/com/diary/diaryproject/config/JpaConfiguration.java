@@ -1,5 +1,7 @@
 package com.diary.diaryproject.config;
 
+
+
 import com.diary.diaryproject.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -14,5 +16,4 @@ import javax.sql.DataSource;
 @EntityScan(basePackages = "com.diary.diaryproject")
 @EnableJpaRepositories(basePackages = "com.diary.diaryproject")
 public class JpaConfiguration {
-
 }
