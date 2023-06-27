@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 @RequestMapping("/jujeop")
@@ -28,7 +30,7 @@ public class MapController {
     public void printMap(){}
 
     @PostMapping("map")
-    public Map<String, String> map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model) {
+    public String map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
 
         HttpSession session = request.getSession();
         String id = (String) session.getAttribute("userId");
@@ -36,22 +38,17 @@ public class MapController {
         mapService.saveToRepository(addr, id);
         Address address = mapService.loadToRepository(id);
 
-        model.addAttribute("address", address.getAddress());
-        model.addAttribute("roadAddress", address.getRoadAddress());
-
-        Map<String, String> data = new HashMap<>();
-        data.put("address", address.getAddress());
-        data.put("roadAddress", address.getRoadAddress());
-        return data;
+        return "redirect:./calendarResult?address="+URLEncoder.encode(address.getAddress(),"utf-8")+"&roadAddress="+URLEncoder.encode(address.getRoadAddress(),"utf-8");
     }
 
-    @GetMapping("saveAddr")
-    public String saveAddr(@RequestBody AddressDTO addr, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
+    @GetMapping("/calendarResult")
+    public String saveAddr(@RequestParam("address") String address, @RequestParam("roadAddress") String roadAddress, Model model) {
 
+        System.out.println("address = " + address);
+        System.out.println("roadAddress = " +roadAddress);
 
-
+        model.addAttribute("address", address);
+        model.addAttribute("roadAddress", roadAddress);
 
         return "calendar";
     }
