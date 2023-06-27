@@ -5,15 +5,19 @@ import com.diary.diaryproject.DiaryProjectApplication;
 import com.diary.diaryproject.config.BeanConfiguration;
 import com.diary.diaryproject.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.entity.Address;
+import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.dto.AddressDTO;
 import com.diary.diaryproject.domain.repository.MapRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ContextConfiguration(classes = {JpaConfiguration.class, DiaryProjectApplication.class, BeanConfiguration.class})
 @SpringBootTest
@@ -33,6 +37,12 @@ public class AddressServiceTests {
     @DisplayName("주소가 저장되지 않았을 때, 예외가 발생하는지")
     @Test
     public void addressExceptionTests(){
-        
+        try {
+            if (mapRepository.findAll() == null) {
+                throw new RuntimeException("예외발생");
+            }
+        }catch (RuntimeException e){
+            System.out.println(e.getMessage().toString());
+        }
     }
 }

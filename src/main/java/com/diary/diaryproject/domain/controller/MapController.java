@@ -43,10 +43,6 @@ public class MapController {
 
     @GetMapping("/calendarResult")
     public String saveAddr(@RequestParam("address") String address, @RequestParam("roadAddress") String roadAddress, Model model) {
-
-        System.out.println("address = " + address);
-        System.out.println("roadAddress = " +roadAddress);
-
         model.addAttribute("address", address);
         model.addAttribute("roadAddress", roadAddress);
 
