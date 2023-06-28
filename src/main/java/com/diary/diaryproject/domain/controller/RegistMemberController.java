@@ -57,15 +57,6 @@ public class RegistMemberController {
         }
         return "redirect:/";
     }
-
-
-//    public void checkSamePwd(Model model, @RequestParam (name = "pwd") String pwd,
-//                             @RequestParam(name = "pwd2") String pwd2) {
-//        if (pwd != pwd2) {
-//            String message = "동일한 비밀번호를 입력해주세요";
-//            model.addAttribute("message", message);
-//        }
-//    }
 }
 
 
