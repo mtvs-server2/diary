@@ -44,6 +44,8 @@
         #pagination a {display:inline-block;margin-right:10px;}
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:src="@{/js/requestOpenAi.js}"></script>
 
     <style>
         .map_wrap {position:relative;width:100%;height:150px;}
@@ -194,6 +196,13 @@
             var formattedDate = date.toLocaleDateString('en-CA');
             $('#dateText').val(formattedDate);
 
+            console.log('openopen');
+
+            const userId = '[[${ userId }]]';
+            const api_key = '[[${ openaiKey }]]';
+            const nickName = '[[${ nickName }]]';
+
+            getPhrase(userId, api_key, nickName, formattedDate);
             $('#myModal').modal('show');
         }
 
@@ -372,6 +381,10 @@
                     <div>
                         <p>선택하신 곳의 주소는 <span th:text="${address}" id="address"></span> 입니다.</p>
                     </div>
+                    <br>
+                    <br>
+                    <div id="phrase-ai"></div>
+                    <br>
                     <div class="form-group">
                         <label for="inputTitle">Title</label>
                         <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">

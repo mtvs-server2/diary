@@ -1,6 +1,7 @@
 package com.diary.diaryproject.domain.controller;
 
 import com.diary.diaryproject.domain.dto.PhraseDTO;
+import com.diary.diaryproject.domain.dto.PhraseReqDTO;
 import com.diary.diaryproject.domain.service.PhraseService;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
@@ -51,12 +52,12 @@ public class PhraseController {
 
     @PostMapping("/{userId}")
     @ResponseBody
-    public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody String phrase) {
+    public ResponseEntity registPhrase(@PathVariable String userId, @RequestBody PhraseReqDTO dto) {
 
         HttpHeaders headers = getHeader();
 
         try {
-            PhraseDTO data =  phraseService.registPhraseToUser(userId, phrase);
+            PhraseDTO data =  phraseService.registPhraseToUser(userId, dto);
             return new ResponseEntity(data, headers, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,6 +106,7 @@ public class PhraseController {
         String key = stringEncryptor.decrypt(openaiKey);
 
         model.addAttribute("openaiKey", key);
+        System.out.println("key = " + key);
 
         return "test/test";
     }

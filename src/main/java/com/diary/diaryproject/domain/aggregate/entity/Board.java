@@ -2,16 +2,11 @@ package com.diary.diaryproject.domain.aggregate.entity;
 
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 
-import com.diary.diaryproject.domain.dto.BoardDTO;
-import com.diary.diaryproject.domain.dto.UserDTO;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Getter
 @Table(name = "Board")
 public class Board {
 
