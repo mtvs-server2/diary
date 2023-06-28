@@ -28,7 +28,7 @@ public class AddressServiceTests {
     @DisplayName("주소가 데이터베이스에 잘 저장되는지")
     @Test
     public void addressTests(){
-        Address address = new Address("경기도", "미미로", "미미");
+        Address address = new Address("경기도", "미미로", "미미", LocalDate.now());
         mapRepository.save(address);
 
         Assertions.assertNotNull(mapRepository.findAll());
