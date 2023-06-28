@@ -31,8 +31,7 @@ jobs:
     - name: Use variables
       run: |
         echo "APP_EN : $APP_EN"
-      env:
-        APP_EN: mtvs
+      APP_EN: mtvs
     - name: Test with Gradle
       run: ./gradlew --info test
     - name: Build with Gradle
