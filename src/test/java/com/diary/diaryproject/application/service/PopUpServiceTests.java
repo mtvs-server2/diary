@@ -7,6 +7,7 @@ import com.diary.diaryproject.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardDTO;
+import com.diary.diaryproject.domain.dto.ResBoardDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
 import com.diary.diaryproject.domain.service.PopUpService;
 import org.junit.jupiter.api.Assertions;
@@ -99,11 +100,13 @@ public class PopUpServiceTests {
 
         BoardDTO boardDTO1 = new BoardDTO();
 
+        Integer no = 1;
+
         boardDTO1.setTitle(title);
         boardDTO1.setBody(body);
         boardDTO1.setEmoji(emojiEnum);
         boardDTO1.setDate(date);
-        popUpService.saveBoard(boardDTO1);
+        popUpService.saveBoard(boardDTO1, no);
 
         Board board = boardRepository.findById(2L).get();
 
@@ -124,8 +127,9 @@ public class PopUpServiceTests {
         EmojiEnum emojiEnum = EmojiEnum.HAPPY;
         LocalDate date = LocalDate.now();
 
+        Integer no = 1;
 
-        popUpService.saveBoard(boardDTO);
+        popUpService.saveBoard(boardDTO, no);
 
         boardDTO.setTitle("dkdk");
         boardDTO.setBoradNo(1L);
@@ -143,8 +147,9 @@ public class PopUpServiceTests {
     @DisplayName("Pass : BoardNo로 특정 Board 정보 조회")
     @Test
     public void boardFindById() {
-        popUpService.saveBoard(boardDTO);
-        BoardDTO board = popUpService.findBoardById(1L);
+        Integer no = 1;
+        popUpService.saveBoard(boardDTO, no);
+        ResBoardDTO board = popUpService.findBoardById(1L);
 
         String title = "k".repeat(5);
         String body = "d".repeat(23);

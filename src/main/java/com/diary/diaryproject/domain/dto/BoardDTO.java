@@ -18,5 +18,6 @@ public class BoardDTO {
     private EmojiEnum emoji;
     private PhraseDTO phrase;
     private ResUserDTO user;
+    private AddressDTO address;
 
 }

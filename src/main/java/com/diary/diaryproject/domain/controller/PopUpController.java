@@ -112,7 +112,6 @@ public class PopUpController {
 
         System.out.println("boardDTO = " + boardDTO.getEmoji());
 
-
         return ResponseEntity.ok(boardDTO);
     }
 
