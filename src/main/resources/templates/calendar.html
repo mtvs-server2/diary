@@ -2,24 +2,349 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        html, body {
+            margin:13px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 15px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0px auto;
+            background-color: #F0F6F8;
+            border-radius: 20px 20px 20px 20px / 20px 20px 20px 20px;
+        }
+        .event-icon {
+            width:70px;
+        }
+
+        .fc-daygrid-day {
+            width: 100px; /* Set the desired width for the cells */
+            height: 100px; /* Set the desired height for the cells */
+        }
+        .modal-dialog {
+            max-width: 800px;
+        }
+        #inputBody {
+            height: 400px;
+        }
+        #emojiImage {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+    </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var events = /*[[${events}]]*/ [];   //날짜/ 이모지
+            var boardNos = /*[[${boardNos}]]*/ [] //날짜+보드번호
+            console.log(events);
+            console.log(boardNos);
+
+
+            // function emojiClickHandler(date) {
+            //     alert("이모지 클릭!!"+date);
+            //     //서버 호출
+            // }
+
+            function emojiClickHandler(date) {
+                boardNos.forEach(function (board) {
+                    if(board.date === date.toLocaleDateString('en-CA')){
+                        alert("click완");
+                        openModalWithData(board.boardNo);
+                    }
+                })
+            }
+
+            function renderCalendar() {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    selectable: true,
+
+                    eventContent: function (arg) {
+                        var event = arg.event;
+                        if (event.extendedProps.type === 'HAPPY') {
+                            return {
+                                html: `<div><img src="images/happy.png" class="event-icon" /></div>`
+
+                            };
+                        }
+                        if (event.extendedProps.type === 'ANGRY') {
+                            return {
+                                html: `<div><img src="images/angry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'CRY') {
+                            return {
+                                html: `<div><img src="images/cry.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'SMILE') {
+                            return {
+                                html: `<div><img src="images/smile.png" class="event-icon" /></div>`
+                            }
+                        }
+                        if (event.extendedProps.type === 'CYNICAL') {
+                            return {
+                                html: `<div><img src="images/cynical.png" class="event-icon" /></div>`
+                            }
+                        }
+                    },
+
+                    events: events,
+
+                    eventDidMount: function(arg) {
+                        const userEmoji = arg.el.querySelectorAll('.event-icon');
+                        userEmoji.forEach((element) => {
+                            element.addEventListener('click', function() {
+                                emojiClickHandler(arg.event.start);
+                            });
+                        });
+                    },
+
+                    //eventColor: '#0e0f37',
+
+                    eventColor: '#F0F6F8',
+
+                    // customButtons: {
+                    //     logoutButton: {
+                    //         text: 'LOGOUT',
+                    //         hint: '잘가요!',
+                    //         click: function () {
+                    //
+                    //         },
+                    //     }
+                    // },
+
+                    headerToolbar: {
+                        left: 'prev',
+                        center: 'title',
+                        right: 'next'
+                    },
+
+                    footerToolbar: {
+                        right: 'logoutButton'
+                    },
+
+                    dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
+                        openModal(event.date);  //event.date 넣어주기
+
+                    }
+
+                });
+
+                calendar.render();
+            }
+            renderCalendar();
+
+        })
+        function openModal(date) {
+            var formattedDate = date.toLocaleDateString('en-CA');
+            $('#dateText').val(formattedDate);
+
+            var imagePath = getEmojiImagePath('HAPPY');
+            $('#emojiImage').attr('src', imagePath);
+
+            $('#myModal').modal('show');
+        }
+
+        $(document).ready(function() {
+            $('#openModal').click(function() {
+                openModal();
+            });
+
+            $('#openModalWithData').click(function() {
+                openModalWithData();
+            });
+        });
+
+
+        function closeModalAndSubmit() {
+            var form = document.getElementById("myForm");
+            var saveButton = document.getElementById("saveButton");
+
+            if (saveButton.innerText === 'Update') {
+                form.action = "/update-board";
+                form.method = "post";
+            } else {
+                form.action = "/save-board";
+                form.method = "post";
+                location.reload();    //페이지 새로고침
+            }
+
+            event.preventDefault();
+
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        $('#myForm')[0].reset();
+                        $('#myModal').modal('hide');
+                    } else {
+                        return response.text();
+                    }
+                })
+                .then(errorMessage => {
+                    if (errorMessage) {
+                        alert('An error occurred: ' + errorMessage);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting form');
+                });
+        }
+        function openModalWithData(boardNo) {
+            alert("도착1");
+            $('#boardNo').val(boardNo);
+            console.log(boardNo);
+            var events = /*[[${events}]]*/ [];
+            fetch('/get-board?boardNo='+boardNo)
+            .then(response => response.json())
+                .then(data => {
+                    alert("fetch");
+                    var emoji = data.emoji;
+                    var title = data.title;
+                    var body = data.body;
+                    var phrase = data.phrase;
+
+                    if (emoji) {
+                        var imagePath = getEmojiImagePath(emoji);
+                        $('#emojiImage').attr('src', imagePath);
+                    } else {
+                        var imagePath = getEmojiImagePath('HAPPY');
+                        $('#emojiImage').attr('src', imagePath);
+                    }
+
+                    $('#inputTitle').val(title);
+                    $('#inputBody').val(body);
+                    $('#emoji').val(emoji).change();
+
+                    var phraseField = $('#phraseField');
+                    if (phrase) {
+                        phraseField.show();
+                        $('#inputPhrase').val(phrase);
+                    } else {
+                        phraseField.hide();
+                    }
+
+                    var saveButton = $('#saveButton');
+                    if (title && body) {
+                        saveButton.text('Update');
+                    } else {
+                        saveButton.text('Save');
+                    }
+
+                    $('#myModal').modal('show');
+                })
+
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+
+            $('#myModal').on('hidden.bs.modal', function () {
+                $('#myForm')[0].reset();
+                var saveButton = $('#saveButton');
+                saveButton.text('Save');
+                $('#phraseField').hide();
+            });
+        }
+        function getEmojiImagePath(emoji) {
+            var imagePath = '';
+
+            switch (emoji) {
+                case 'HAPPY':
+                    imagePath = 'images/happy.png';
+                    break;
+                case 'SMILE':
+                    imagePath = 'images/smile.png';
+                    break;
+                case 'ANGRY':
+                    imagePath = 'images/angry.png';
+                    break;
+                case 'CRY':
+                    imagePath = 'images/cry.png';
+                    break;
+                case 'CYNICAL':
+                    imagePath = 'images/cynical.png';
+                    break;
+                default:
+                    break;
+            }
+
+            return imagePath;
+        }
+    </script>
 </head>
 <body>
-  <div id='calendar'>
+<div id='calendar'></div>
+<button onclick="logout()">로그아웃</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="myForm" action="/save-board" method="post">
+                    <div class="form-group">
+                        <label for="emoji">Emoji : </label>
+                        <label>
+                            <select name="emoji" id="emoji" form="myForm">
+                                <option value="HAPPY">HAPPY😍</option>
+                                <option value="SMILE">SMILE😊</option>
+                                <option value="ANGRY">ANGRY😡</option>
+                                <option value="CRY">CRY😢</option>
+                                <option value="CYNICAL">CYNICAL😐</option>
+                            </select>
+                        </label>
+                        <img id="emojiImage" src="" alt="Emoji" style="max-width: 50px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTitle">Title</label>
+                        <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="dateText">Date</label>
+                        <textarea class="form-control" id="dateText" name="date" readonly ></textarea>
+                    </div>
+                    <div class="form-group" id="phraseField" style="display: none;">
+                        <label for="inputPhrase">Phrase</label>
+                        <input type="text" class="form-control" id="inputPhrase" name="phrase" placeholder="Enter phrase" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBody">Body</label>
+                        <textarea class="form-control" id="inputBody" rows="4" name="body" placeholder="Enter body"></textarea>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for="boardNo">BoardNo</label>
+                        <textarea class="form-control" id="boardNo" name="boardNo"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="saveButton" onclick="closeModalAndSubmit()">Save</button>
 
-  </div>
-  <script>
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
-      });
-
-      calendar.render();
-    });
-
-  </script>
+                </form>
+                <script>
+                    function logout() {
+                        location.href="/logout";
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
