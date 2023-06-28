@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://43.200.231.220:54497
-    username: prod
-    password: ENC(nVAc8rbd+5JCGOA1VfGN+msp4lhw3y64)
+    username: root
+    password: ENC(2pMWNlT5bWd8t7rDdXlC6Q==)
     hikari:
       auto-commit: false
