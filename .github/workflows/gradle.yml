@@ -29,7 +29,7 @@ jobs:
     - name: Add permission
       run: chmod +x gradlew
     - name: print env
-      run: echo "${{ vars.APP_EN }}"
+      run: echo "${{ secrets.APP_EN }}"
     - name: Test with Gradle
       run: ./gradlew --info test
       env:
