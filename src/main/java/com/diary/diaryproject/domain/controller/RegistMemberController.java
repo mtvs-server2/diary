@@ -1,28 +1,27 @@
 package com.diary.diaryproject.domain.controller;
-
 import com.diary.diaryproject.domain.dto.UserDTO;
-import com.diary.diaryproject.domain.service.RegistMemberService;
+import com.diary.diaryproject.domain.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.validation.Valid;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/*")
 public class RegistMemberController {
 
-    private RegistMemberService registMemberService;
+    private SignUpService signUpService;
 
     @Autowired
-    public RegistMemberController(RegistMemberService registMemberService) {
-        this.registMemberService = registMemberService;
+    public RegistMemberController(SignUpService signUpService) {
+        this.signUpService = signUpService;
     }
 
     @GetMapping("/regist")
@@ -31,31 +30,25 @@ public class RegistMemberController {
     }
 
     @PostMapping("/regist")
-    public String registUser(@Valid UserDTO userDTO, Errors errors, Model model,
-                             @RequestParam (name = "pwd") String pwd,
-                             @RequestParam(name = "pwd2") String pwd2) {
-        if (errors.hasErrors()) {
-//            model.addAttribute("userDTO", userDTO); //회원가입 실패 시 입력 데이터 유지
-            Map<String, String> validatorResult = RegistMemberService.validateHandling(errors);
-            for (String key : validatorResult.keySet()) {
-                model.addAttribute(key, validatorResult.get(key));
-            }
-            return "register";
-        }
+    public String registUser(UserDTO userDTO, Model model,
+                           @RequestParam(name = "pwd") String pwd,
+                           @RequestParam(name = "pwd2") String pwd2, HttpServletResponse response) throws IOException {
 
-        if (!(pwd.equals(pwd2))) {
-            String message = "동일한 비밀번호를 입력해주세요";
-            model.addAttribute("message", message);
-
-            return "register";
-        }
-        if(registMemberService.checkId(userDTO)){
-            registMemberService.registUser(userDTO);
+        if(signUpService.signUp(userDTO, model, pwd, pwd2)) {
+            String mesg="회원가입이 완료되었습니다.";
+            alert(mesg,response);
+            return "login";
         }else{
-            model.addAttribute("errormesg","아이디가 중복입니다.");
             return "register";
         }
-        return "redirect:/";
+    }
+    public void alert(String notice, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script type='text/javascript'>");
+        out.println("alert('"+notice+"');");
+        out.println("</script>");
+        out.flush();
     }
 }
 
