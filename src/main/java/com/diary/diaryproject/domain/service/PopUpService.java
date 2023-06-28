@@ -1,17 +1,12 @@
 package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.domain.aggregate.entity.Board;
-import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.dto.BoardDTO;
-import com.diary.diaryproject.domain.dto.UserDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
-import com.diary.diaryproject.domain.repository.UserRepository;
-import org.apache.catalina.session.StandardSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @Service
