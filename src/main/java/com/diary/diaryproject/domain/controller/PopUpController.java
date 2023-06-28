@@ -3,6 +3,7 @@ package com.diary.diaryproject.domain.controller;
 import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.dto.BoardDTO;
+import com.diary.diaryproject.domain.dto.ResUserDTO;
 import com.diary.diaryproject.domain.dto.UserDTO;
 import com.diary.diaryproject.domain.service.PopUpService;
 import org.modelmapper.ModelMapper;
@@ -41,7 +42,7 @@ public class PopUpController {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        UserDTO convertedUser = modelMapper.map(user, UserDTO.class);
+        ResUserDTO convertedUser = modelMapper.map(user, ResUserDTO.class);
         BoardDTO boardDTO = new BoardDTO();
 
         LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE);
