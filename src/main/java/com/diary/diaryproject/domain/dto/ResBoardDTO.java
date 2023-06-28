@@ -5,19 +5,17 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class BoardDTO {
+public class ResBoardDTO {
     private Long boradNo;
     private String title;
     private String body;
-    private LocalDate date;
+    private String date;
     private EmojiEnum emoji;
-    private PhraseDTO phrase;
-    private ResUserDTO user;
-    private AddressDTO address;
-
+    private String phrase;
+    private String address;
 }
