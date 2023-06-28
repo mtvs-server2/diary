@@ -56,7 +56,7 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
                 //         .split('\n')
                 //         .join('<br/>')}</div>`
                 // })
-                document.getElementById('inputPhrase').value = `${ value }`;
+                document.getElementById('inputPhrase').value = `${ phrase }`;
 
 
                 const data = {
