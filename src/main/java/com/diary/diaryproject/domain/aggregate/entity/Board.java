@@ -30,7 +30,7 @@ public class Board {
     @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "phaseNo")
     private Phrases phrase;
 

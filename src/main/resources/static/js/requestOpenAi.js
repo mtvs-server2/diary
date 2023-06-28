@@ -22,8 +22,10 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
         .then((response) => {
             let resultDiv = document.getElementById('myModal');
             value = response.data.phrase;
+            phraseNo = response.data.phraseNo
             // document.getElementById('phrase-ai-1').remove();
-            myForm =  document.getElementById('phrase-ai').innerHTML = `<div id"phrase-ai-1"> AI 주접 : ${ value }</div>`;
+            myForm =  document.getElementById('inputPhrase').value = `${ value }`;
+            document.getElementById('phraseNo').value = `${ phraseNo }`;
         }).catch((e) => {
             console.log(e);
         })
@@ -48,12 +50,14 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
                 let resultDiv = document.getElementById('myModal');
                 console.log(response.data.choices[0].message.content);
                 const phrase = response.data.choices[0].message.content
-                resultDiv.getElementsByClassName('modal-body').innerHTML = ''
-                response.data.choices.forEach((choice, index) => {
-                    resultDiv.innerHTML += `<div>${choice.message.content
-                        .split('\n')
-                        .join('<br/>')}</div>`
-                })
+                // resultDiv.getElementsByClassName('modal-body').innerHTML = ''
+                // response.data.choices.forEach((choice, index) => {
+                //     resultDiv.innerHTML += `<div>${choice.message.content
+                //         .split('\n')
+                //         .join('<br/>')}</div>`
+                // })
+                document.getElementById('inputPhrase').value = `${ value }`;
+
 
                 const data = {
                     phrase : phrase,
@@ -63,7 +67,8 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
                 axios
                     .post(`/phrases/${ userId.replace(reg, '') }`, data, config1)
                     .then((res) => {
-                        console.log(res);
+                        phraseNo = res.data.phraseNo
+                        document.getElementById('phraseNo').value = `${ phraseNo }`;
                     })
                     .catch((err) => {
                         console.log(err);

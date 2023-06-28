@@ -89,6 +89,7 @@
     <script th:inline="javascript">
         // 마커를 담을 배열입니다
         var markers = [];
+        let phraseNo = 0;
 
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -248,7 +249,6 @@
                         $('#myForm')[0].reset();
                         $('#myModal').modal('hide');
                         const data = response.json();
-                        console.log(data.result);
                         data.then(data => {
                              emoji = data.emoji;
                              console.log(emoji);
@@ -273,10 +273,12 @@
                     var title = data.title;
                     var body = data.body;
                     var phrase = data.phrase;
+                    var date = data.date
 
                     $('#inputTitle').val(title);
                     $('#inputBody').val(body);
                     $('#emoji').val(emoji).change();
+                    $('#dateText').val(date);
 
                     var phraseField = $('#phraseField');
                     if (phrase) {
@@ -360,24 +362,22 @@
                                 <option value="CYNICAL">CYNICAL😐</option>
                             </select>
                         </label>
-                        <div class="map_wrap">
-                            <div id="map" style="width:70%;height:160%;overflow:hidden;"></div>
-                            <div id="menu_wrap" class="bg_white">
-                                <div class="option">
-                                    <div>
-                                        <form onsubmit="searchPlaces(); return false;">
-                                            키워드 : <input type="text" value="판교 테크노벨리" id="keyword" size="10">
-                                            <button id="searchButton" type="button" onclick="searchPlaces()">검색하기</button>
-                                        </form>
-                                    </div>
+                    <div class="map_wrap">
+                        <div id="map" style="width:70%;height:160%;overflow:hidden;"></div>
+                        <div id="menu_wrap" class="bg_white">
+                            <div class="option">
+                                <div>
+                                    <form onsubmit="searchPlaces(); return false;">
+                                        키워드 : <input type="text" value="판교 테크노벨리" id="keyword" size="10">
+                                        <button id="searchButton" type="button" onclick="searchPlaces()">검색하기</button>
+                                    </form>
                                 </div>
-                                <hr>
-                                <ul id="placesList"></ul>
-                                <div id="pagination"></div>
                             </div>
+                            <hr>
+                            <ul id="placesList"></ul>
+                            <div id="pagination"></div>
                         </div>
-
-
+                    </div>
                     <div>
                         <p>선택하신 곳의 주소는 <span th:text="${address}" id="address"></span> 입니다.</p>
                     </div>
@@ -385,26 +385,28 @@
                     <br>
                     <div id="phrase-ai"></div>
                     <br>
-                    <div class="form-group">
+<!--                    <div class="form-group">-->
                         <label for="inputTitle">Title</label>
                         <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
-                    </div>
-                    <div class="form-group" style="display: none;">
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
                         <label for="dateText">Date</label>
                         <textarea class="form-control" id="dateText" name="date" readonly ></textarea>
-                    </div>
-                    <div class="form-group" id="phraseField" style="display: none;">
+<!--                    </div>-->
+<!--                    <div class="form-group" id="phraseField" style="display: none;">-->
                         <label for="inputPhrase">Phrase</label>
                         <input type="text" class="form-control" id="inputPhrase" name="phrase" placeholder="Enter phrase" readonly>
-                    </div>
-                    <div class="form-group">
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
                         <label for="inputBody">Body</label>
                         <textarea class="form-control" id="inputBody" rows="4" name="body" placeholder="Enter body"></textarea>
-                    </div>
-                    <div class="form-group" style="display: none;">
-                        <label for="boardNo">BoardNo</label>
-                        <textarea class="form-control" id="boardNo" name="boardNo"></textarea>
-                    </div>
+<!--                    </div>-->
+<!--                    <div class="form-group" style="display: none;">-->
+                        <label for="boardNo"></label>
+                        <textarea class="form-control" id="boardNo" name="boardNo" hidden="hidden"></textarea>
+                        <label for="phraseNo"></label>
+                        <textarea class="form-control" id="phraseNo" name="phraseNo" hidden="hidden"></textarea>
+<!--                    </div>-->
                     <button type="button" class="btn btn-primary" id="saveButton" onclick="closeModalAndSubmit()">Save</button>
                     </div>
                 </form>
