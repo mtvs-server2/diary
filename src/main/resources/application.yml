@@ -4,9 +4,14 @@ server:
   servlet:
     session:
       timeout: 360000s
+    # 인코딩 UTF-8로 설정
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 spring:
   profiles:
-    active: dev
+    active: prod
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
 #  config:
@@ -19,11 +24,11 @@ spring:
     generate-ddl : true
     show-sql: true
     database: mysql
-#    properties:
-#      hibernate:
-#        '[format_sql]': true
+    properties:
+      hibernate:
+        '[format_sql]': true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
     web:
       resources:
@@ -41,4 +46,9 @@ spring:
       # 파일 하나의 최대 크기
       max-file-size: 20MB
 
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
+open-ai:
+  api-key : 4DkmsDsNFmd5NDnHkko97m/xPA6Tc8kM3fbsrZmjP62oVg7JQFX84WSyU3Ww/qRoEWhStjqzsaTFGg2Qq7W0qQ==

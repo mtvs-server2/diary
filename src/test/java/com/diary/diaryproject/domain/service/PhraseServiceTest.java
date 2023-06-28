@@ -1,12 +1,11 @@
 package com.diary.diaryproject.domain.service;
 
+import com.diary.diaryproject.DiaryProjectApplication;
 import com.diary.diaryproject.config.BeanConfiguration;
 import com.diary.diaryproject.config.JpaConfiguration;
-import com.diary.diaryproject.DiaryProjectApplication;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.aggregate.entity.User;
-import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 import com.diary.diaryproject.domain.repository.BoardRepository;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import com.diary.diaryproject.domain.repository.UserRepository;
@@ -19,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -125,7 +123,10 @@ class PhraseServiceTest {
         user.setNickName("정품");
         userRepository.save(user);
 
-       User user1 = userRepository.findById(1L).get();
+        User user1 = new User();
+        if(userRepository.findById("myrhymetree").isPresent()) {
+            user1 = userRepository.findById("myrhymetree").get();
+        }
 
         Phrases phrases = new Phrases();
         phrases.setPhrase("주접주접주접");

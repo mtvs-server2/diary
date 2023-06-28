@@ -1,46 +1,53 @@
 package com.diary.diaryproject.domain.controller;
 
-import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
+import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.dto.EventDTO;
 import com.diary.diaryproject.domain.dto.NoDTO;
 import com.diary.diaryproject.domain.service.EmojiPostService;
+import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller
 public class EmojiPostController {
 
+    private final EmojiPostService emojiPostService;
+
+    private final StringEncryptor stringEncryptor;
+
+    @Value("${open-ai.api-key}")
+    private String openaiKey;
+
+
     @Autowired
-    private EmojiPostService emojiPostService;
+    public EmojiPostController(EmojiPostService emojiPostService, StringEncryptor stringEncryptor) {
+        this.emojiPostService = emojiPostService;
+        this.stringEncryptor = stringEncryptor;
+    }
 
 
     @GetMapping("/calendar")
     public String getEvent(Model model, HttpServletRequest request){
-//            public String getEvent(Model model){
-//        HttpSession session = request.getSession();
-//        Long id = (long) request.getAttribute("userId");
-//
-        List<EventDTO> events = emojiPostService.getEmoji("test");
-        List<NoDTO> boardNos = emojiPostService.getBoardNo("test");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String id = user.getId();
+        String key = "Bearer " + stringEncryptor.decrypt(openaiKey);
 
-//        List<EventDTO> events = new ArrayList<>();
-//        List<NoDTO> boardNos = new ArrayList<>();
-//
-//        events.add(new EventDTO(EmojiEnum.HAPPY, LocalDate.now()));
-//        events.add(new EventDTO(EmojiEnum.ANGRY, LocalDate.of(2023,6,1)));
-//        events.add(new EventDTO(EmojiEnum.SMILE, LocalDate.of(2023,6,2)));
-//        boardNos.add(new NoDTO(1L, LocalDate.now()));
+        List<EventDTO> events = emojiPostService.getEmoji(id);
+        List<NoDTO> boardNos = emojiPostService.getBoardNo(id);
 
         model.addAttribute("events", events);
         model.addAttribute("boardNos", boardNos);
+        model.addAttribute("userId", user.getId());
+        model.addAttribute("nickName", user.getNickName());
+        model.addAttribute("openaiKey", key);
 
         return "calendar";
     }
