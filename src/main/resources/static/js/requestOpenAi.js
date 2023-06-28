@@ -22,7 +22,8 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
         .then((response) => {
             let resultDiv = document.getElementById('myModal');
             value = response.data.phrase;
-            const myForm =  document.getElementById('phrase-ai').innerHTML += `<div> AI 주접 : ${ value }</div>`;
+            // document.getElementById('phrase-ai-1').remove();
+            myForm =  document.getElementById('phrase-ai').innerHTML = `<div id"phrase-ai-1"> AI 주접 : ${ value }</div>`;
         }).catch((e) => {
             console.log(e);
         })
