@@ -18,7 +18,7 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
     }
 
     await axios
-        .get(`/phrases/${ userId.replace(reg, '') }?date=2023-06-26`, config1)
+        .get(`/phrases/${ userId.replace(reg, '') }?date=${ formattedDate }`, config1)
         .then((response) => {
             let resultDiv = document.getElementById('myModal');
             value = response.data.phrase;
