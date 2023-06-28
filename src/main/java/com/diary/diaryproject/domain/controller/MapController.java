@@ -5,6 +5,7 @@ import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.dto.AddressDTO;
 import com.diary.diaryproject.domain.service.MapService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +34,18 @@ public class MapController {
     public void printMap(){}
 
     @PostMapping("map")
-    public String map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
+    @ResponseBody
+    public ResponseEntity map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String id = user.getId();
 
-        mapService.saveToRepository(addr, id);
-        Address address = mapService.loadToRepository(id);
+        AddressDTO res =  mapService.saveToRepository(addr, id);
+//        Address address = mapService.loadToRepository(id);
 
-        return "redirect:./calendarResult?address="+"&roadAddress="+URLEncoder.encode(address.getRoadAddress(),"utf-8");
+//        return "redirect:./calendarResult?address="+"&roadAddress="+URLEncoder.encode(address.getRoadAddress(),"utf-8");
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/calendarResult")

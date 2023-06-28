@@ -33,7 +33,7 @@ public class PopUpController {
 
     // 다이어리 입력 받아서 저장
     @PostMapping("/save-board")
-    public ResponseEntity<String> saveData(@ModelAttribute ReqDataDTO reqDto, HttpServletRequest request) {
+    public ResponseEntity saveData(@ModelAttribute ReqDataDTO reqDto, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -48,6 +48,7 @@ public class PopUpController {
         boardDTO.setUser(convertedUser);
 
         Integer phraseNo = reqDto.getPhraseNo();
+        Integer addressNo = reqDto.getAddressNo();
 
 //        System.out.println("Title: " + title);
 //        System.out.println("Text: " + body);
@@ -58,9 +59,9 @@ public class PopUpController {
         try {
 
             popUpService.checkBoardLength(boardDTO);
-            popUpService.saveBoard(boardDTO, phraseNo);
+            BoardDTO data = popUpService.saveBoard(boardDTO, phraseNo, addressNo);
 
-            return ResponseEntity.ok("Data saved successfully");
+            return ResponseEntity.ok(data);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
@@ -111,7 +112,6 @@ public class PopUpController {
         }
 
         System.out.println("boardDTO = " + boardDTO.getEmoji());
-
 
         return ResponseEntity.ok(boardDTO);
     }
