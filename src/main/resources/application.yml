@@ -11,7 +11,7 @@ server:
       force: true
 spring:
   profiles:
-    active: dev
+    active: prod
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
 #  config:
@@ -28,7 +28,7 @@ spring:
       hibernate:
         '[format_sql]': true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     web:
       resources:
