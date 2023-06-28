@@ -32,7 +32,7 @@ jobs:
       run: |
         echo "APP_EN : $APP_EN"
       env:
-        APP_EN: ${{ vars.APP_EN }}
+        APP_EN: ${{ secrets.APP_EN }}
     - name: Test with Gradle
       run: ./gradlew --info test
     - name: Build with Gradle
