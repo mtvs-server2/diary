@@ -34,11 +34,15 @@ public class Board {
     @JoinColumn(name = "phaseNo")
     private Phrases phrase;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressNo")
+    private Address address;
+
     public Board() {
 
     }
 
-    public Board(Long boardNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum, User user) {
+    public Board(Long boardNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum, User user, Address address) {
         this.boardNo = boardNo;
         this.title = title;
         this.body = body;
@@ -46,7 +50,7 @@ public class Board {
         this.date = date;
         this.emoji = emojiEnum;
         this.user = user;
-
+        this.address = address;
     }
 
     public void setTitle(String title) {
@@ -91,6 +95,22 @@ public class Board {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setBoardNo(Long boardNo) {
+        this.boardNo = boardNo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Phrases getPhrase() {

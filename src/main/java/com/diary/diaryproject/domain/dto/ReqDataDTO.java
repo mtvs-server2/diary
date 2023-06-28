@@ -14,4 +14,5 @@ public class ReqDataDTO {
     private EmojiEnum emoji;
     private String date;
     private Integer phraseNo;
+    private Integer addressNo;
 }

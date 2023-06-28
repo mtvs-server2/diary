@@ -196,7 +196,8 @@
         function openModal(date) {
             var mapWrap = document.querySelector('.map_wrap');
             mapWrap.style.display = 'block';
-            var formattedDate = date.toLocaleDateString('en-CA');
+            let formattedDate = date.toLocaleDateString('en-CA');
+            localStorage.setItem("date", formattedDate);
             $('#dateText').val(formattedDate);
 
             const userId = '[[${ userId }]]';
@@ -274,6 +275,8 @@
                     var body = data.body;
                     var phrase = data.phrase;
                     var date = data.date
+                    var roadAddress = data.address
+                    console.log(roadAddress);
                     var mapWrap = document.querySelector('.map_wrap');
 
 
@@ -281,10 +284,13 @@
                     $('#inputBody').val(body);
                     $('#emoji').val(emoji).change();
                     $('#dateText').val(date);
+                    // $('#address').val(roadAddress);
+                    document.getElementById("address").innerText = roadAddress
 
                     var phraseField = $('#phraseField');
                     if (phrase) {
                         phraseField.show();
+                        mapWrap.style.display = 'none';
                         $('#inputPhrase').val(phrase);
                     } else {
                         phraseField.hide();
@@ -382,7 +388,7 @@
                             </div>
                         </div>
                     <div>
-                        <p>선택하신 곳의 주소는 <span th:text="${address}" id="address"></span> 입니다.</p>
+                        <p>선택하신 곳의 주소는 <span th:text="${address}" id="address" name="address"></span> 입니다.</p>
                     </div>
                     <br>
                     <br>
@@ -409,6 +415,8 @@
                         <textarea class="form-control" id="boardNo" name="boardNo" hidden="hidden"></textarea>
                         <label for="phraseNo"></label>
                         <textarea class="form-control" id="phraseNo" name="phraseNo" hidden="hidden"></textarea>
+                        <label for="addressNo"></label>
+                        <textarea class="form-control" id="addressNo" name="addressNo" hidden="hidden"></textarea>
 <!--                    </div>-->
                     <button type="button" class="btn btn-primary" id="saveButton" onclick="closeModalAndSubmit()">Save</button>
                     </div>
@@ -471,20 +479,37 @@
                     var xhr = new XMLHttpRequest();
                     var url = "/jujeop/map";
 
-                    xhr.open("POST", url, true);
-                    xhr.setRequestHeader("Content-type", "application/json");
+                    // xhr.open("POST", url, true);
+                    // xhr.setRequestHeader("Content-type", "application/json");
+                    // console.log('date', localStorage.getItem("date"));
+
+                    const config = {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    }
+
                     var data = JSON.stringify({
                         // roadAddress: result[0].road_address.address_name,
-                        address: result[0].address.address_name
+                        address: result[0].address.address_name,
+                        date: localStorage.getItem("date")
                     });
 
+                    axios
+                        .post('/jujeop/map', data, config)
+                        .then((res) => {
+                            console.log('res', res);
+                            document.getElementById("addressNo").value = res.data.addressNo
+                            document.getElementById("address").innerText = res.data.roadAddress
+                        })
 
 
-                    console.log("data", JSON.parse(data));
-                    const jsonData = JSON.parse(data);
-                    document.getElementById("address").innerText = jsonData.address;
 
-                    xhr.send(data);
+                    // console.log("data", JSON.parse(data));
+                    // const jsonData = JSON.parse(data);
+
+
+                    // xhr.send(data);
                     isMarkerClicked = false;
                 }
             }

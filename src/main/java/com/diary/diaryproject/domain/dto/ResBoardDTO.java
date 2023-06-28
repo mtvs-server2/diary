@@ -17,4 +17,5 @@ public class ResBoardDTO {
     private String date;
     private EmojiEnum emoji;
     private String phrase;
+    private String address;
 }
