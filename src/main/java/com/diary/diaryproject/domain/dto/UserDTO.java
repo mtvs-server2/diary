@@ -17,6 +17,8 @@ public class UserDTO {
     @NotBlank(message = "닉네임은 필수 입력값입니다.")
     private String nickName;
 
+    public UserDTO() {}
+
     public UserDTO(String id, String pwd, String nickName) {
         this.id = id;
         this.pwd = pwd;
@@ -46,5 +48,4 @@ public class UserDTO {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-
 }

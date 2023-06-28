@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-@Component
 public class BoardDTO {
     private Long boradNo;
     private String title;

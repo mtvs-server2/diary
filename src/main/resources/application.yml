@@ -28,7 +28,7 @@ spring:
       hibernate:
         '[format_sql]': true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     web:
       resources:
@@ -51,4 +51,4 @@ jasypt:
     bean: jasyptStringEncryptor
 
 open-ai:
-  api-key : G6Tym5NFuGdM0ZriHLXT1y6m8GoIZjD+Zmkof+fsRR++JFJyTuWz4otot8IW6/WUb9dailibXMdGYoHm+44JOQ==
+  api-key : 4DkmsDsNFmd5NDnHkko97m/xPA6Tc8kM3fbsrZmjP62oVg7JQFX84WSyU3Ww/qRoEWhStjqzsaTFGg2Qq7W0qQ==
