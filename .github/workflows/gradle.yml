@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
     - name: Add permission
       run: chmod +x gradlew
-    - name: env config
+    - name: Create.env config
       run: export APP_EN=${{secrets.APP_EN}}
     - name: Test with Gradle
       run: ./gradlew --info test
