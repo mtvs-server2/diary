@@ -83,6 +83,12 @@
             height: 300px;
         }
 
+        .logout-button{
+            background-color: #2c3c54;
+            color: #e2e3d9;
+            border-radius: 5px;
+        }
+
     </style>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
@@ -177,9 +183,9 @@
                         right: 'next'
                     },
 
-                    footerToolbar: {
-                        right: 'logoutButton'
-                    },
+                    // footerToolbar: {
+                    //     right: 'logoutButton'
+                    // },
 
                     dateClick: function (event) { //날짜 박스 클릭 시 글쓰기 팝업
                         openModal(event.date);  //event.date 넣어주기
@@ -347,7 +353,7 @@
 </head>
 <body>
 <div id='calendar'></div>
-<button onclick="logout()">로그아웃</button>
+<button onclick="logout()" class="logout-button" style="float:right">Logout</button>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
