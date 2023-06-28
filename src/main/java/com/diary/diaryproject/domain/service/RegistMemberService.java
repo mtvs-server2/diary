@@ -28,7 +28,6 @@ public class RegistMemberService {
 
         for (FieldError error : errors.getFieldErrors()) {
             String validKeyName = String.format("valid_%s", error.getField());
-            System.out.println("validKeyName = " + validKeyName);
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
         return validatorResult;
