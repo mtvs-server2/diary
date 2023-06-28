@@ -31,14 +31,14 @@ jobs:
     - name: Use variables
       run: |
         echo "APP_EN : $APP_EN"
-      APP_EN: ${{ secret.APP_EN }}
+      APP_EN: ${{ vars.APP_EN }}
     - name: Test with Gradle
       run: ./gradlew --info test
       env:
-        APP_EN : ${{ secret.APP_EN }}
+        APP_EN : ${{ vars.APP_EN }}
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
       env:
-        APP_EN: ${{ secret.APP_EN }}
+        APP_EN: ${{ vars.APP_EN }}
