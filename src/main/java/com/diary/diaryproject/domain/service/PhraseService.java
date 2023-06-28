@@ -2,6 +2,7 @@ package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.dto.PhraseDTO;
+import com.diary.diaryproject.domain.dto.PhraseReqDTO;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,17 +21,19 @@ public class PhraseService {
     private final ModelMapper modelMapper;
 
     @Transactional
-    public PhraseDTO registPhraseToUser(String userId, String phrase) throws Exception {
+    public PhraseDTO registPhraseToUser(String userId, PhraseReqDTO dto) throws Exception {
+
+        LocalDate date = LocalDate.parse(dto.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         Phrases phrases = Phrases.builder()
                 .id(userId)
-                .phrase(phrase)
-                .date(LocalDate.now())
+                .phrase(dto.getPhrase())
+                .date(date)
                 .build();
 
         phrasesRepository.save(phrases);
 
-        PhraseDTO result =  modelMapper.map(phrase, PhraseDTO.class);
+        PhraseDTO result =  modelMapper.map(phrases, PhraseDTO.class);
 
         return result;
     }

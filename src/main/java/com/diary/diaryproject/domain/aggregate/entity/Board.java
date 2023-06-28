@@ -2,16 +2,11 @@ package com.diary.diaryproject.domain.aggregate.entity;
 
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
 
-import com.diary.diaryproject.domain.dto.BoardDTO;
-import com.diary.diaryproject.domain.dto.UserDTO;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Getter
 @Table(name = "Board")
 public class Board {
 
@@ -32,18 +27,22 @@ public class Board {
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "phaseNo")
     private Phrases phrase;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "addressNo")
+    private Address address;
 
     public Board() {
 
     }
 
-    public Board(Long boardNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum, User user) {
+    public Board(Long boardNo, String title, String body, Phrases phrase, LocalDate date, EmojiEnum emojiEnum, User user, Address address) {
         this.boardNo = boardNo;
         this.title = title;
         this.body = body;
@@ -51,7 +50,7 @@ public class Board {
         this.date = date;
         this.emoji = emojiEnum;
         this.user = user;
-
+        this.address = address;
     }
 
     public void setTitle(String title) {
@@ -96,6 +95,22 @@ public class Board {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public void setBoardNo(Long boardNo) {
+        this.boardNo = boardNo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Phrases getPhrase() {

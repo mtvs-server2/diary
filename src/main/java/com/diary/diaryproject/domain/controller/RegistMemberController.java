@@ -5,17 +5,13 @@ import com.diary.diaryproject.domain.service.RegistMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -61,15 +57,6 @@ public class RegistMemberController {
         }
         return "redirect:/";
     }
-
-
-//    public void checkSamePwd(Model model, @RequestParam (name = "pwd") String pwd,
-//                             @RequestParam(name = "pwd2") String pwd2) {
-//        if (pwd != pwd2) {
-//            String message = "동일한 비밀번호를 입력해주세요";
-//            model.addAttribute("message", message);
-//        }
-//    }
 }
 
 

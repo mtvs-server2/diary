@@ -1,15 +1,23 @@
 package com.diary.diaryproject.domain.controller;
 
 import com.diary.diaryproject.domain.aggregate.entity.Address;
+import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.dto.AddressDTO;
 import com.diary.diaryproject.domain.service.MapService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/jujeop")
@@ -26,24 +34,24 @@ public class MapController {
     public void printMap(){}
 
     @PostMapping("map")
-    public String map(@RequestBody AddressDTO addr, HttpServletRequest request) {
+    @ResponseBody
+    public ResponseEntity map(@RequestBody AddressDTO addr, HttpServletRequest request, Model model, HttpServletResponse response) throws UnsupportedEncodingException {
+
         HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
+        User user = (User) session.getAttribute("user");
+        String id = user.getId();
 
-        mapService.saveToRepository(addr, id);
+        AddressDTO res =  mapService.saveToRepository(addr, id);
+//        Address address = mapService.loadToRepository(id);
 
-        return "saveAddr";
+//        return "redirect:./calendarResult?address="+"&roadAddress="+URLEncoder.encode(address.getRoadAddress(),"utf-8");
+        return ResponseEntity.ok(res);
     }
 
-    @GetMapping("saveAddr")
-    public String saveAddr(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String id = (String) session.getAttribute("userId");
+    @GetMapping("/calendarResult")
+    public String saveAddr(@RequestParam("address") String address, @RequestParam("roadAddress") String roadAddress, Model model) {
+        model.addAttribute("roadAddress", roadAddress);
 
-        Address address = mapService.loadToRepository(id);
-        model.addAttribute("address", address.getAddress());
-        model.addAttribute("roadAddress", address.getRoadAddress());
-
-        return "saveAddr";
+        return "calendar";
     }
 }

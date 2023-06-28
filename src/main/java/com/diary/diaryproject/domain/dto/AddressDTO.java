@@ -1,25 +1,18 @@
 package com.diary.diaryproject.domain.dto;
 
-import lombok.AllArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class AddressDTO {
+    private Integer addressNo;
     private String roadAddress;
     private String address;
-
-    public String getRoadAddress() {
-        return roadAddress;
-    }
-
-    public void setRoadAddress(String roadAddress) {
-        this.roadAddress = roadAddress;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    private String date;
+    private String userId;
 }

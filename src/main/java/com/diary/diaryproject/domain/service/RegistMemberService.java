@@ -5,12 +5,9 @@ import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +28,6 @@ public class RegistMemberService {
 
         for (FieldError error : errors.getFieldErrors()) {
             String validKeyName = String.format("valid_%s", error.getField());
-            System.out.println("validKeyName = " + validKeyName);
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
         return validatorResult;

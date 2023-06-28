@@ -11,7 +11,7 @@ server:
       force: true
 spring:
   profiles:
-    active: dev
+    active: prod
 # 운영환경 or 로컬 환경 중에 선택하세요.
 #    active: prod
 #  config:
@@ -51,4 +51,4 @@ jasypt:
     bean: jasyptStringEncryptor
 
 open-ai:
-  api-key : G6Tym5NFuGdM0ZriHLXT1y6m8GoIZjD+Zmkof+fsRR++JFJyTuWz4otot8IW6/WUb9dailibXMdGYoHm+44JOQ==
+  api-key : 4DkmsDsNFmd5NDnHkko97m/xPA6Tc8kM3fbsrZmjP62oVg7JQFX84WSyU3Ww/qRoEWhStjqzsaTFGg2Qq7W0qQ==
