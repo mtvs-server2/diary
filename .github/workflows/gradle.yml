@@ -28,10 +28,7 @@ jobs:
         distribution: 'temurin'
     - name: Add permission
       run: chmod +x gradlew
-#    - name: env config
-#      run: export APP_EN=${{secrets.APP_EN}}
-      # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
-    - name: Generate Environment Variables File for Production
+    - name: Use variables
       run: |
         echo "APP_EN : $APP_EN"
       env:
