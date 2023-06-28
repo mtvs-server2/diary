@@ -28,10 +28,6 @@ jobs:
         distribution: 'temurin'
     - name: Add permission
       run: chmod +x gradlew
-    - name: Use variables
-      run: |
-        echo "APP_EN : $APP_EN"
-      APP_EN: ${{ vars.APP_EN }}
     - name: Test with Gradle
       run: ./gradlew --info test
       env:
