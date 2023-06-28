@@ -6,28 +6,35 @@
 </head>
 <body>
 <h1 align="center">회원가입</h1>
-<form th:action="@{/regist}" method="post" modelAttribute="userDTO">
+<form th:action="@{/regist}" method="post">
     <div align="center">
-        <label>아이디</label><br>
-        <input type="text" , name="id" placeholder="ID"><br>
-        <span th:text="${ errormesg }"></span>
-        <span th:text = "${ valid_id }"></span>
+        <p><label>아이디</label><br>
+        <input type="text" , name="id" placeholder="ID" ><br>
+        <span th:text="${ errormesg }" style="color: red" ></span>
+        <span th:text = "${ incorrectId }" style="color: red"></span></p>
+        <span th:text = "${ nullId }" style="color: red"></span></p>
+
     </div>
+
     <div align="center">
-        <label>비밀번호</label><br>
+        <p><label>비밀번호</label><br>
         <input type="password" , name="pwd" placeholder="Password"><br>
-        <span th:text = "${ valid_pwd }"></span>
+        <span th:text = "${ incorrectPwd }" style="color: red"></span></p>
+        <span th:text = "${ nullPwd }" style="color: red"></span></p>
     </div>
+
     <div align="center">
-        <label>비밀번호 재확인</label><br>
+        <p><label>비밀번호 재확인</label><br>
         <input type="password" , name="pwd2" placeholder="Confirm Password"><br>
-        <span th:text = "${ message }"></span>
+        <span th:text = "${ notSamePwd }" style="color: red"></span></p>
     </div>
+
     <div align="center">
-        <label>닉네임</label><br>
+        <p><label>닉네임</label><br>
         <input type="text" , name="nickName" placeholder="nickName"><br>
-        <span th:text ="${ valid_nickName }"></span>
-    </div><br>
+        <span th:text ="${ nullNickName }" style="color: red"></span></p>
+    </div>
+
     <div align="center">
         <button type="submit">가입하기</button>
     </div>
