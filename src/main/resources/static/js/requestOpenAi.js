@@ -33,7 +33,7 @@ async function getPhrase(userId, api_key, nickName, formattedDate) {
     if(!value) {
 
         const messages = [
-            {"role": "system", "content": `당신은 느끼하며 반말을 합니다. ${nickName}을 반드시 이용해서 주접을 떠세요`},
+            {"role": "system", "content": `칭찬을 하세요. 이름 ${nickName}을 포함하세요`},
             {"role": "system", "content": "한 문장으로 대답하세요"}
         ]
 
