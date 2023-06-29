@@ -2,11 +2,9 @@ package com.diary.diaryproject.domain.service;
 
 
 import com.diary.diaryproject.DiaryProjectApplication;
-import com.diary.diaryproject.config.BeanConfiguration;
-import com.diary.diaryproject.config.JpaConfiguration;
+import com.diary.diaryproject.application.config.BeanConfiguration;
+import com.diary.diaryproject.application.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.entity.Address;
-import com.diary.diaryproject.domain.aggregate.entity.Phrases;
-import com.diary.diaryproject.domain.dto.AddressDTO;
 import com.diary.diaryproject.domain.repository.MapRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

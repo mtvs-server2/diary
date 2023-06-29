@@ -2,14 +2,11 @@ package com.diary.diaryproject.application.service;
 
 
 import com.diary.diaryproject.DiaryProjectApplication;
-import com.diary.diaryproject.config.BeanConfiguration;
-import com.diary.diaryproject.config.JpaConfiguration;
-import com.diary.diaryproject.domain.aggregate.entity.Board;
+import com.diary.diaryproject.application.config.BeanConfiguration;
+import com.diary.diaryproject.application.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.enumtype.EmojiEnum;
-import com.diary.diaryproject.domain.dto.BoardDTO;
-import com.diary.diaryproject.domain.dto.ResBoardDTO;
+import com.diary.diaryproject.application.dto.BoardDTO;
 import com.diary.diaryproject.domain.repository.BoardRepository;
-import com.diary.diaryproject.domain.service.PopUpService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 
 @ContextConfiguration(classes = {JpaConfiguration.class, DiaryProjectApplication.class, BeanConfiguration.class})

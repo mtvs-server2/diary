@@ -1,8 +1,8 @@
 package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.DiaryProjectApplication;
-import com.diary.diaryproject.config.BeanConfiguration;
-import com.diary.diaryproject.config.JpaConfiguration;
+import com.diary.diaryproject.application.config.BeanConfiguration;
+import com.diary.diaryproject.application.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.entity.Board;
 import com.diary.diaryproject.domain.aggregate.entity.Phrases;
 import com.diary.diaryproject.domain.aggregate.entity.User;
@@ -10,7 +10,6 @@ import com.diary.diaryproject.domain.repository.BoardRepository;
 import com.diary.diaryproject.domain.repository.PhrasesRepository;
 import com.diary.diaryproject.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;

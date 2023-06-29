@@ -1,8 +1,8 @@
 package com.diary.diaryproject.domain.service;
 
 import com.diary.diaryproject.DiaryProjectApplication;
-import com.diary.diaryproject.config.BeanConfiguration;
-import com.diary.diaryproject.config.JpaConfiguration;
+import com.diary.diaryproject.application.config.BeanConfiguration;
+import com.diary.diaryproject.application.config.JpaConfiguration;
 import com.diary.diaryproject.domain.aggregate.entity.User;
 import com.diary.diaryproject.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
