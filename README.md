@@ -26,7 +26,7 @@
     <td align="center"><a href="https://github.com/raxchaz"><b>라현지</b></td>
     <td align="center"><a href="https://github.com/numerical43"><b>강수의</b></td>
     <td align="center"><a href="https://github.com/hodin030"><b>이효진</b></td>
-    <td align="center"><a href="https://github.com/hodin030"><b>박성준</b></td>
+    <td align="center"><a href="https://github.com/myrhymetree"><b>박성준</b></td>
   </tr>
 
   <tr>
@@ -35,7 +35,7 @@
     <td align="center"><strong>Ra Hyeon Ji</strong></td>
     <td align="center"><strong>SUI</strong></td>
     <td align="center"><strong>Lee Hyo Jin</strong></td>
-    <td align="center"><strong>Park Seoun Jun</strong></td>
+    <td align="center"><strong>Park Seoung Joon</strong></td>
   </tr>
 </table>
 
